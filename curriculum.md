@@ -12,11 +12,10 @@ tasks
 - linear algebra package
 
 additional
-- Colin's optimisation problem
+- Colins optimisation problem
 - graph plotting
 - netcdf
 - statistics on big data
-- numpy
 
 Day 1
 =====
@@ -52,9 +51,18 @@ PRACTICAL 3: toy python source that takes input from stdin and outputs to stdout
 - if, else, elif
 - numpy arrays
 - looping: over numpy array, with condition/counter
-- pytest
+- bisection method
 
-PRACTICAL 4: automated test of root finding using bisection method
+PRACTICAL 4: root finding function
+
+- pytest
+- numeric integration using midpoint rule
+
+PRACTICAL 5: run existing pytest for root finding alg; test and impl numeric integration
+
+Wrap up: what we've covered and what we're covering tomorrow
 
 Day 3
 =====
+
+

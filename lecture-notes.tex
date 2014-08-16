@@ -1,0 +1,81 @@
+\documentclass[a4paper,twoside]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[british]{babel}
+\usepackage{csquotes}
+\usepackage[T1]{fontenc}
+\usepackage{charter}
+\usepackage[bitstream-charter]{mathdesign}
+\usepackage[final,babel]{microtype}
+\usepackage[hidelinks,pdfpagelayout=TwoPageRight]{hyperref}
+\usepackage{xcolor}
+\usepackage{menukeys}
+\usepackage{minted}
+\usepackage{amsmath}
+
+\newcommand{\FrameTitle}[2]{%
+  \fboxrule=\FrameRule \fboxsep=\FrameSep
+  \fbox{\vbox{\nobreak \vskip -0.7\FrameSep
+    \rlap{\centerline{\strut#1}}\nobreak\nointerlineskip% centered
+    \vskip 0.7\FrameSep
+    \hbox{#2}}}}
+\newenvironment{framewithtitle}[2][\FrameFirst@Lab\ (cont.)]{%
+  \def\FrameFirst@Lab{\textbf{#2}}%
+  \def\FrameCont@Lab{\textbf{#1}}%
+  \def\FrameCommand##1{%
+    \FrameTitle{\FrameFirst@Lab}{##1}}%
+  \def\FirstFrameCommand##1{%
+    \FrameTitle{\FrameFirst@Lab}{##1}}%
+  \def\MidFrameCommand##1{%
+    \FrameTitle{\FrameCont@Lab}{##1}}%
+  \def\LastFrameCommand##1{%
+    \FrameTitle{\FrameCont@Lab}{##1}}%
+\MakeFramed{\advance\hsize-\width \FrameRestore}}%
+{\endMakeFramed}
+
+\newcounter{exercisectr}
+\newenvironment{exercise}
+{\stepcounter{exercisectr}\begin{framewithtitle}{Practical \arabic{exercisectr}}}
+{\end{framewithtitle}}
+
+\newcommand{\shellcmd}{\texttt}
+\newcommand{\shellvar}[1]{$\langle \text{#1}\rangle$}
+\newcommand{\additional}{\medskip\noindent{\textit{Additional exercises}}}
+
+\begin{document}
+Linux offers a command line (also known as a `terminal' or `shell') which allows you to manipulate files, process data, and perform almost any other operation
+Many built-in commands accept input from, and print output to, the command line
+Use \keys{ctrl+c} to abort a command that is currently running
+Use \keys{ctrl+d} on a blank line when you have finished entering all the input to a command
+Most commands come with manuals, called `man pages'; if you know the name of the command, \shellcmd{man \shellvar{mycommand}} displays its man page.  Type \keys{q} to return to the command line.
+
+\begin{exercise}
+Try sorting a list of numbers.  The \shellcmd{sort} command takes its input from the command line and expects each list item on a new line.  Try entering the following
+\begin{minted}{bash}
+$ sort --numeric-sort
+11.4
+11.2
+-2
+4
+\end{minted}
+Type \keys{\ctrl+d} on an empty line when you have finished entering the list.  The result should be printed to the command line.
+
+If you make a mistake entering the data, you can abort the \shellcmd{sort} command by typing \keys{\ctrl+c}.  Notice that no sorting is performed and nothing is printed to the command line.
+
+\additional
+
+In the previous exercise we used the \shellcmd{-{}-numeric-sort} option to sort items numerically.  The \shellcmd{sort} command has many other options that control the way data is sorted.
+
+Try sorting words in reverse alphabetical order, ignoring upper and lower cases.  To find the appropriate options, take a look at the manual page with \shellcmd{man sort}, and type \keys{q} to get back to the command line prompt.
+
+The output of one command can be used as the input to another using a pipe (\shellcmd{|}).  To remove duplicate items in a list, we can sort them, then remove adjacent lines that are the same.  Try the following command
+\begin{minted}{bash}
+$ sort | uniq
+bob
+alice
+charlie
+bob
+charlie
+\end{minted}
+using \keys{ctrl+d} when you have finished entering the list.
+\end{exercise}
+\end{document}
