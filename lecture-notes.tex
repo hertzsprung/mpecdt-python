@@ -11,6 +11,7 @@
 \usepackage{menukeys}
 \usepackage{minted}
 \usepackage{amsmath}
+\usepackage{enumitem}
 
 \newcommand{\FrameTitle}[2]{%
   \fboxrule=\FrameRule \fboxsep=\FrameSep
@@ -41,12 +42,64 @@
 \newcommand{\shellvar}[1]{$\langle \text{#1}\rangle$}
 \newcommand{\additional}{\medskip\noindent{\textit{Additional exercises}}}
 
+\setlist[itemize]{leftmargin=*,label={--}}
+
 \begin{document}
-Linux offers a command line (also known as a `terminal' or `shell') which allows you to manipulate files, process data, and perform almost any other operation
-Many built-in commands accept input from, and print output to, the command line
-Use \keys{ctrl+c} to abort a command that is currently running
-Use \keys{ctrl+d} on a blank line when you have finished entering all the input to a command
-Most commands come with manuals, called `man pages'; if you know the name of the command, \shellcmd{man \shellvar{mycommand}} displays its man page.  Type \keys{q} to return to the command line.
+\chapter{The Linux command line}
+
+\begin{itemize}
+\item Linux offers a command line which allows you to manipulate files, process data, and perform almost any other operation
+\item Some commands take options that modify their behaviour.  Options usually start with one hyphen (\shellcmd{-}) or two hyphens (\shellcmd{-{}-}), and appear after the command name.  Options are separated by spaces.
+\item Some commands take one or more arguments which often specify the location of a file or directory.  Arguments come after the command and any options, and are also separated by spaces.
+\item A typical command with options and arguments might look like this:
+\begin{minted}{bash}
+$ sort --numeric-sort -r dataSet2013.txt dataSet2014.txt
+\end{minted}
+\end{itemize}
+% Many built-in commands output to the command line, and some also read their input from it
+
+\section{The file system}
+\begin{itemize}
+\item Linux has a single file system that comprises a tree of directories that contain files
+\item The slash symbol (\shellcmd{/}) identifies the root of the tree
+\item A pathname identifies a file or directory, which is the path that is taken through the directory tree to reach it
+\item The slash symbol is also used to separate the names of files and directories in a pathname
+\item An absolute path specifies a location starting from the root of the tree.  Hence, absolute paths always begin with a slash (\shellcmd{/}).
+\item The command line remembers your current location in the directory tree, and you can discover its path with the \shellcmd{pwd} command (short for `Print Working Directory')
+\item If a path does not start with a \shellcmd{/} then it gives a location that is relative to the current location.  Hence, it is called a `relative path'.
+\item Files that belong to the user are stored in a location called the `home' directory which has the path \shellcmd{/home/\shellvar{myusername}}.  This is analagous to `My Documents' on Microsoft Windows.
+\end{itemize}
+
+\subsection{Directory manipulation}
+\begin{itemize}
+\item The \shellcmd{ls} command lists the contents of the current directory
+\item The \shellcmd{cd} command, short for `Change Directory', changes the current directory to a new location
+\item \shellcmd{cd /home/alice/photos/} moves to the \shellcmd{photos} subdirectory in alice's home directory
+\item If our current directory is \shellcmd{/home/alice/photos/}, the command \shellcmd{cd 2009/kenya} changes our current directory to \shellcmd{/home/alice/photos/2009/kenya/}
+\item To move up a level in the directory tree, we can use the special directory named with two periods (\shellcmd{..})
+\item \shellcmd{cd ..} moves up one level to \shellcmd{/home/alice/photos/2009/}
+\item And then \shellcmd{cd ../../} moves up another two levels back to alice's home directory, \shellcmd{/home/alice/}
+\item Many other commands also accept a pathname.  For example, \shellcmd{ls /home/alice/photos} lists the contents of alice's photos directory.
+\item \shellcmd{mkdir -p \shellvar{pathname}} creates a new directory (and will create any directories that don't already exist in the directory tree)
+\end{itemize}
+
+\subsection{File manipulation}
+\begin{itemize}
+\item Copy a file with the command \shellcmd{cp \shellvar{source} \shellvar{destination}}
+\item Copy a directory and all of its contents with \shellcmd{cp -r \shellvar{source} \shellvar{destination}} (where the option \shellcmd{-r} specifies recursive copying)
+\item To rename a file or directory, use \shellcmd{mv \shellvar{source} \shellvar{destination}}
+\item The same command can be used to move a file or directory to another location in the tree.  For example, \shellcmd{mv photos/2009/kenya photos/2010/} moves the \shellcmd{kenya} directory into the \shellcmd{2010} directory.
+\item To delete a file, use \shellcmd{rm \shellvar{file}}
+\item To delete a directory and all its contents, first decide if you really want to do this.  There is no Recycle Bin to rescue you.  If you really must, use \shellcmd{rm -r -I \shellvar{directory}}.
+\end{itemize}
+
+\section{Special keys and finding help}
+
+\begin{itemize}
+\item Use \keys{ctrl+c} to abort a command that is currently running
+\item Use \keys{ctrl+d} on a blank line when you have finished entering all the input to a command
+\item Most commands come with manuals, called `man pages'; if you know the name of the command, \shellcmd{man \shellvar{mycommand}} displays its man page.  Type \keys{q} to return to the command line.
+\end{itemize}
 
 \begin{exercise}
 Try sorting a list of numbers.  The \shellcmd{sort} command takes its input from the command line and expects each list item on a new line.  Try entering the following
