@@ -21,7 +21,6 @@ Day 1
 =====
 Intro to the course
 Linux basics
-- navigation: filesystem, home directory, /, .., ls, cd, pwd, mkdir
 - file manipulation: cp, mv, rm, *, wget
 - ctrl-c, ctrl-d
 Install ipython

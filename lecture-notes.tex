@@ -12,6 +12,7 @@
 \usepackage{minted}
 \usepackage{amsmath}
 \usepackage{enumitem}
+\usepackage{siunitx}
 
 \newcommand{\FrameTitle}[2]{%
   \fboxrule=\FrameRule \fboxsep=\FrameSep
@@ -41,6 +42,7 @@
 \newcommand{\shellcmd}{\texttt}
 \newcommand{\shellvar}[1]{$\langle \text{#1}\rangle$}
 \newcommand{\additional}{\medskip\noindent{\textit{Additional exercises}}}
+\newcommand{\TODO}[1]{\textcolor{purple}{TODO: \emph{#1}}}
 
 \setlist[itemize]{leftmargin=*,label={--}}
 
@@ -102,6 +104,8 @@ $ sort --numeric-sort -r dataSet2013.txt dataSet2014.txt
 \end{itemize}
 
 \begin{exercise}
+\TODO{move around the FS, create some files and directories etc}
+
 Try sorting a list of numbers.  The \shellcmd{sort} command takes its input from the command line and expects each list item on a new line.  Try entering the following
 \begin{minted}{bash}
 $ sort --numeric-sort
@@ -131,4 +135,26 @@ charlie
 \end{minted}
 using \keys{ctrl+d} when you have finished entering the list.
 \end{exercise}
+
+\chapter{The Python programming language}
+
+\section{Installing Python}
+
+\section{Numeric data}
+\begin{itemize}
+\item There are many different types of data in Python including numeric, textual, and boolean (true or false) data types
+\item There are three numeric types built into Python
+	\begin{description}
+	\item[Integer values ($\mathbb{Z}$)]{Examples of integer values are \shellcmd{5}, \shellcmd{-8} and \shellcmd{3e8} (where \shellcmd{e} means `exponent', so $\text{\shellcmd{3e8}} = \num{3e8}$).  Unlike some other programming languages, integers in Python have no minimum or maximum value.}
+	\item[Real values ($\mathbb{R}$)]{In Python these are called `floating point' numbers, or just `floats'.  Examples of floats are \shellcmd{5.9}, \shellcmd{13.0} and \shellcmd{-2.39e-12}.  Because floats have limited precision, they can only approximate real numbers, and rounding errors often appear when we do arithmetic with floating point values.  We will point out some of the pitfalls in \TODO{xref}.}
+	\item[Complex values ($\mathbb{C}$)]{Not covered in this course, but details can be found at \url{https://docs.python.org/3/library/stdtypes.html#typesnumeric}}
+	\end{description}
+\item Python provides a variety of numeric operators including addition (\shellcmd{+}), subtraction (\shellcmd{-}), multiplication (\shellcmd{*}), division (\shellcmd{/}) and exponentiation (\shellcmd{**})
+\item Values can be combined with operators to form expressions.  Python can evaluate expressions and print the result to the command line.  For example, \shellcmd{3 + 6 * -2} prints \shellcmd{-9}, and \shellcmd{5.3 ** 2.5} prints \shellcmd{64.66803638583747}.
+\item Python uses the conventional order of operations such that multiplication has a higher precedence than addition, for example.  To make the expression clearer, or to force a different order of evaluation, you can use parentheses.  For example, \shellcmd{(3 + 6) * -2} prints \shellcmd{-18}.  For full details of operator precedence, see \url{https://docs.python.org/3/reference/expressions.html#evaluation-order}.
+%\item Variables are used to store data.  A variable should be given a name that describes its purpose, such as \shellcmd{bank\_balance}, \shellcmd{user\_name} or \shellcmd{overdrawn}.
+\end{itemize}
+
+%\url{https://docs.python.org/3/tutorial/floatingpoint.html}
+
 \end{document}
