@@ -145,8 +145,8 @@ using \keys{ctrl+d} when you have finished entering the list.
 \item There are many different types of data in Python including numeric, textual, and boolean (true or false) data types
 \item There are three numeric types built into Python
 	\begin{description}
-	\item[Integer values ($\mathbb{Z}$)]{Examples of integer values are \shellcmd{5}, \shellcmd{-8} and \shellcmd{3e8} (where \shellcmd{e} means `exponent', so $\text{\shellcmd{3e8}} = \num{3e8}$).  Unlike some other programming languages, integers in Python have no minimum or maximum value.}
-	\item[Real values ($\mathbb{R}$)]{In Python these are called `floating point' numbers, or just `floats'.  Examples of floats are \shellcmd{5.9}, \shellcmd{13.0} and \shellcmd{-2.39e-12}.  Because floats have limited precision, they can only approximate real numbers, and rounding errors often appear when we do arithmetic with floating point values.  We will point out some of the pitfalls in \TODO{xref}.}
+	\item[Integer values ($\mathbb{Z}$)]{Examples of integer values are \shellcmd{5} and \shellcmd{-8}.  Unlike some other programming languages, integers in Python have no minimum or maximum value.}
+	\item[Real values ($\mathbb{R}$)]{In Python these are called `floating point' numbers, or just `floats'.  Examples of floats are \shellcmd{5.9}, \shellcmd{13.0} and \shellcmd{-2.39e-12} (where \shellcmd{e} means `exponent', so $\text{\shellcmd{-2.39e-12}} = \num{-2.39e-12}$).  Because floats have limited precision, they can only approximate real numbers, and rounding errors often appear when we do arithmetic with floating point values.  We will point out some of the pitfalls in \TODO{xref}.}
 	\item[Complex values ($\mathbb{C}$)]{Not covered in this course, but details can be found at \url{https://docs.python.org/3/library/stdtypes.html#typesnumeric}}
 	\end{description}
 \item Python provides a variety of numeric operators including addition (\shellcmd{+}), subtraction (\shellcmd{-}), multiplication (\shellcmd{*}), division (\shellcmd{/}) and exponentiation (\shellcmd{**})
@@ -154,6 +154,16 @@ using \keys{ctrl+d} when you have finished entering the list.
 \item Python uses the conventional order of operations such that multiplication has a higher precedence than addition, for example.  To make the expression clearer, or to force a different order of evaluation, you can use parentheses.  For example, \shellcmd{(3 + 6) * -2} prints \shellcmd{-18}.  For full details of operator precedence, see \url{https://docs.python.org/3/reference/expressions.html#evaluation-order}.
 %\item Variables are used to store data.  A variable should be given a name that describes its purpose, such as \shellcmd{bank\_balance}, \shellcmd{user\_name} or \shellcmd{overdrawn}.
 \end{itemize}
+
+\begin{exercise}
+\begin{enumerate}
+\item Try evaluating \shellcmd{12345678901234567890 + 1234567890123456789}.  Now try evaluating \shellcmd{12345678901234567890.0 + 12345678901234567890.0}.  Can you explain why the answers differ?  What is the significance of the decimal place?
+
+\item Try evaluating $3 \div 10$.  Do you get the expected answer?  Now try evaluating $1 \div 10 \times 3$.  Can you explain why the answer is different?
+
+\item Try evaluating \shellcmd{10 + 1e17}.  Why is the answer incorrect?  Can you write a different expression that gives the correct result? % 10 + (10 ** 17)
+\end{enumerate}
+\end{exercise}
 
 %\url{https://docs.python.org/3/tutorial/floatingpoint.html}
 
