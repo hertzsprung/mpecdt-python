@@ -13,6 +13,7 @@
 \usepackage{amsmath}
 \usepackage{enumitem}
 \usepackage{siunitx}
+\usepackage{booktabs}
 
 \newcommand{\FrameTitle}[2]{%
   \fboxrule=\FrameRule \fboxsep=\FrameSep
@@ -47,6 +48,8 @@
 \setlist[itemize]{leftmargin=*,label={--}}
 
 \begin{document}
+\tableofcontents*
+
 \chapter{The Linux command line}
 
 \begin{itemize}
@@ -140,6 +143,8 @@ using \keys{ctrl+d} when you have finished entering the list.
 
 \section{Installing Python}
 
+\TODO{IPython.  quit with ctrl-d}
+
 \section{Numeric data}
 \begin{itemize}
 \item There are many different types of data in Python including numeric, textual, and boolean (true or false) data types
@@ -163,6 +168,89 @@ using \keys{ctrl+d} when you have finished entering the list.
 
 \item Try evaluating \shellcmd{10 + 1e17}.  Why is the answer incorrect?  Can you write a different expression that gives the correct result? % 10 + (10 ** 17)
 \end{enumerate}
+\end{exercise}
+
+\section{Boolean logic}
+\begin{itemize}
+\item Another of Python's data types is the boolean type.  Its two values are \shellcmd{True} and \shellcmd{False}.
+\item We can evaluate boolean expressions using the boolean operators \shellcmd{and}, \shellcmd{or} and \shellcmd{not}.  For example, \shellcmd{not True} evaluates to \shellcmd{False}.  \shellcmd{True or False} evaluates to \shellcmd{True}.
+\item Numeric expressions can be compared for equality or inequality using one of the following operators
+
+\begin{tabular}{ c @{\hspace{2em}} c}
+	\toprule
+	Mathematical expression & Python expression \\ \midrule
+	$3 = 4$			& \shellcmd{3 == 4} \\
+	$3 < 4$			& \shellcmd{3 < 4} \\
+	$3 \leq 4$		& \shellcmd{3 <= 4} \\
+	$3 > 4$			& \shellcmd{3 > 4} \\
+	$3 \geq 4$		& \shellcmd{3 >= 4} \\
+	$3 \neq 4$		& \shellcmd{3 != 4} \\
+	\bottomrule
+\end{tabular}
+
+All of these expressions will evaluate to a boolean value of either \shellcmd{True} or \shellcmd{False}.
+
+\item We can construct more elaborate expressions.  For example, $3 < 4 \leq 5$ could be written in Python as \shellcmd{3 < 4 and 4 <= 5} or, more consisely, \shellcmd{3 < 4 <= 5}.
+
+\item Because floats are only approximations, it is dangerous to test that they are equal (\shellcmd{==}) or not equal (\shellcmd{!=}).  When working with floating point numbers, you should almost always compare them for inequality (\shellcmd{<}, \shellcmd{<=}, \shellcmd{>}, \shellcmd{>=}).  
+\end{itemize}
+
+\section{Mathematical functions}
+\begin{itemize}
+\item The features we have covered so far are all built into the Python language itself.  Additional functions are provided by Python modules.  The standard Python implementation includes modules for common tasks including mathematical calculations, and reading and writing files.  Additional modules can be installed for more specialised tasks such as matrix solving and graph plotting.
+\item The \shellcmd{math} module provides a variety of common mathematical functions.  To gain access to these functions, you must `import' them from the module using the Python command
+\begin{minted}{python}
+from math import *
+\end{minted}
+\item The \shellcmd{math} module is documented at \url{https://docs.python.org/3/library/math.html}.  Some of the most common functions are summarised below
+
+\begin{tabular}{ c @{\hspace{2em}} c}
+	\toprule
+	Mathematical function	& Python function \\ \midrule
+	$\lfloor 3.3 \rfloor$	& \shellcmd{floor(3.3)} \\
+	$\lceil 3.3 \rceil$	& \shellcmd{ceil(3.3)} \\
+	$e^{3.3}$		& \shellcmd{exp(3.3)} \\
+	$\ln(3.3)$		& \shellcmd{log(3.3)} \\
+	$\log(3.3)$		& \shellcmd{log10(3.3)} \\
+	$\sqrt{3.3}$		& \shellcmd{sqrt(3.3)} \\
+	\bottomrule
+\end{tabular}
+
+\item The \shellcmd{math} module also includes trigonometric and hyperbolic functions, and also defines the constants $e$ and $\pi$.  For example, we could use them in expressions such as \shellcmd{e ** (-1/3)} or \shellcmd{sin(pi/2)}.
+\end{itemize}
+
+\section{Textual data}
+\begin{itemize}
+\item Python has a data type for textual data.  This type is called a `string' because it comprises a string of characters.
+\item A string is enclosed in single or double quotes.  Examples of string values are \shellcmd{'hello world'} and \shellcmd{"The quick brown fox"}.
+\item You can include placeholders in a string and use the \shellcmd{format} function to replace them with actual values.  For example
+\begin{minted}{python}
+"The area of a circle with radius {r} is {area}" \
+  .format(r=3, area=pi*3**2)
+\end{minted}
+
+Which will print
+\begin{verbatim}
+The area of a circle with radius 3 is 28.274333882308138
+\end{verbatim}
+Notice that, because the line was quite long, we have used a backslash so that we can continue the code on a second line.
+
+\item If we want to control how values are formatted when they are printed as text, we can use a `format specifier'.  For example, if we want to display the area with 4 significant digits, we can use the format specifier \shellcmd{.4g} and write
+\begin{minted}{python}
+"The area of a circle with radius {r} is {area:.4g}" \
+  .format(r=3, area=pi*3**2)
+\end{minted}
+
+Which will print
+\begin{verbatim}The area of a circle with radius 3 is 28.27\end{verbatim}
+
+\item There are many more ways to format data, for more information see \url{https://docs.python.org/3/library/string.html#formatspec}.
+
+\end{itemize}
+
+\begin{exercise}
+\TODO{show how == and != are dangerous with fp}
+\TODO{something involving math functions and string formatting}
 \end{exercise}
 
 %\url{https://docs.python.org/3/tutorial/floatingpoint.html}
