@@ -275,7 +275,8 @@ Which will print
 
 \begin{exercise}
 \TODO{show how == and != are dangerous with fp}
-\TODO{something involving math functions, variables and string formatting}
+
+Write some Python code that takes the mean of two real numbers.  The ceiling of the result should be displayed with two significant digits.  \TODO{provide some expected inputs and outputs}
 \end{exercise}
 
 \section{Python source files}
@@ -294,7 +295,7 @@ Which will print
 #!/usr/bin/env python3
 from math import *
 
-print("The area of a circle with radius {r} is {area}" \
+print("The area of a circle with radius {r} is {area:.4g}" \
 	.format(r=3, area=pi*3**2))
 \end{minted}
 \item If we save this source file to \shellcmd{\home/mpecdt-python/circle-area.py}, and \shellcmd{cd} to the \shellcmd{\home/mpecdt-python/} directory, we can execute our program on the command line like this
@@ -309,13 +310,13 @@ import sys
 
 radius = float(sys.argv[1])
 
-print("The area of a circle with radius {r} is {area}" \
+print("The area of a circle with radius {r} is {area:.4g}" \
 	.format(r=radius, area=pi*radius**2))
 \end{minted}
 Now we can execute the program like this:
 \begin{minted}{bash}
 $ ./circle-area.py 4.5
-The area of a circle with radius 4.5 is 63.61725123519331
+The area of a circle with radius 4.5 is 63.62
 \end{minted}
 The \shellcmd{argv} variable is an array of strings.  We will describe arrays later in section~\TODO{xref}.
 
@@ -327,13 +328,26 @@ We will modify our \shellcmd{circle-area.py} program to demonstrate this:
 from math import *
 import sys
 
-radius = float(sys.argv[1])
+radius = float(sys.stdin.readline())
 
-print("The area of a circle with radius {r} is {area}" \
+print("The area of a circle with radius {r} is {area:.4g}" \
 	.format(r=radius, area=pi*radius**2))
 \end{minted}
-
+Now, to execute the program, we must create a text file containing the radius value, let's call it \shellcmd{radius.txt}.  Then we use the input redirection operator (\shellcmd{<}) like so
+\begin{minted}{bash}
+$ ./circle-area.py < radius.txt
+The area of a circle with radius 4.5 is 63.62
+\end{minted}
+\item If we wanted the result to be saved to a file, we could use output redirection operator (\shellcmd{>}) as well:
+\begin{minted}{bash}
+$ ./circle-area.py < radius.txt > area.txt
+\end{minted}
 \end{itemize}
+
+\begin{exercise}
+Using the code you wrote in Practical \TODO{xref}, create a complete Python program that has the same behaviour.  You should supply the two numbers as command line arguments.
+	\TODO{additional exercise: write a second command and pipe the two together, maybe with a sort in the middle}
+\end{exercise}
 
 %\url{https://docs.python.org/3/tutorial/floatingpoint.html}
 
