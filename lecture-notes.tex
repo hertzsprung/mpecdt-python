@@ -44,6 +44,7 @@
 \newcommand{\shellvar}[1]{$\langle \text{#1}\rangle$}
 \newcommand{\additional}{\medskip\noindent{\textit{Additional exercises}}}
 \newcommand{\TODO}[1]{\textcolor{purple}{TODO: \emph{#1}}}
+\newcommand{\home}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
 
 \setlist[itemize]{leftmargin=*,label={--}}
 
@@ -51,6 +52,9 @@
 \tableofcontents*
 
 \chapter{The Linux command line}
+\label{chap:linux}
+
+\section{Linux commands}
 
 \begin{itemize}
 \item Linux offers a command line which allows you to manipulate files, process data, and perform almost any other operation
@@ -60,8 +64,14 @@
 \begin{minted}{bash}
 $ sort --numeric-sort -r dataSet2013.txt dataSet2014.txt
 \end{minted}
+\item Most commands come with manuals, called `man pages'; if you know the name of the command, \shellcmd{man \shellvar{mycommand}} displays its man page.  Type \keys{q} to return to the command line.
+\item Most commands display their results on the command line.  If instead you want to save the output to a file, you can use output redirection (\shellcmd{>}).  For example
+\begin{minted}{bash}
+$ sort --numeric-sort dataSet2013.txt > sorted2013.txt
+\end{minted}
+\item Use \keys{ctrl+c} to abort a command that is currently running
+\item Use \keys{ctrl+d} on a blank line when you have finished entering all the input to a command
 \end{itemize}
-% Many built-in commands output to the command line, and some also read their input from it
 
 \section{The file system}
 \begin{itemize}
@@ -72,7 +82,8 @@ $ sort --numeric-sort -r dataSet2013.txt dataSet2014.txt
 \item An absolute path specifies a location starting from the root of the tree.  Hence, absolute paths always begin with a slash (\shellcmd{/}).
 \item The command line remembers your current location in the directory tree, and you can discover its path with the \shellcmd{pwd} command (short for `Print Working Directory')
 \item If a path does not start with a \shellcmd{/} then it gives a location that is relative to the current location.  Hence, it is called a `relative path'.
-\item Files that belong to the user are stored in a location called the `home' directory which has the path \shellcmd{/home/\shellvar{myusername}}.  This is analagous to `My Documents' on Microsoft Windows.
+\item Files that belong to the user are stored in a location called the `home' directory which has the path \shellcmd{/home/\shellvar{username}}.  This is analagous to `My Documents' on Microsoft Windows.
+\item To save typing the full path, the home directory has a special name, \home\ (the tilde character).
 \end{itemize}
 
 \subsection{Directory manipulation}
@@ -84,7 +95,7 @@ $ sort --numeric-sort -r dataSet2013.txt dataSet2014.txt
 \item To move up a level in the directory tree, we can use the special directory named with two periods (\shellcmd{..})
 \item \shellcmd{cd ..} moves up one level to \shellcmd{/home/alice/photos/2009/}
 \item And then \shellcmd{cd ../../} moves up another two levels back to alice's home directory, \shellcmd{/home/alice/}
-\item Many other commands also accept a pathname.  For example, \shellcmd{ls /home/alice/photos} lists the contents of alice's photos directory.
+\item Many other commands also accept a pathname.  For example, \shellcmd{ls \home/photos} lists the contents of alice's photos directory (notice that we have used the special \home\ symbol).
 \item \shellcmd{mkdir -p \shellvar{pathname}} creates a new directory (and will create any directories that don't already exist in the directory tree)
 \end{itemize}
 
@@ -96,14 +107,6 @@ $ sort --numeric-sort -r dataSet2013.txt dataSet2014.txt
 \item The same command can be used to move a file or directory to another location in the tree.  For example, \shellcmd{mv photos/2009/kenya photos/2010/} moves the \shellcmd{kenya} directory into the \shellcmd{2010} directory.
 \item To delete a file, use \shellcmd{rm \shellvar{file}}
 \item To delete a directory and all its contents, first decide if you really want to do this.  There is no Recycle Bin to rescue you.  If you really must, use \shellcmd{rm -r -I \shellvar{directory}}.
-\end{itemize}
-
-\section{Special keys and finding help}
-
-\begin{itemize}
-\item Use \keys{ctrl+c} to abort a command that is currently running
-\item Use \keys{ctrl+d} on a blank line when you have finished entering all the input to a command
-\item Most commands come with manuals, called `man pages'; if you know the name of the command, \shellcmd{man \shellvar{mycommand}} displays its man page.  Type \keys{q} to return to the command line.
 \end{itemize}
 
 \begin{exercise}
@@ -158,6 +161,8 @@ using \keys{ctrl+d} when you have finished entering the list.
 \item Values can be combined with operators to form expressions.  Python can evaluate expressions and print the result to the command line.  For example, \shellcmd{3 + 6 * -2} prints \shellcmd{-9}, and \shellcmd{5.3 ** 2.5} prints \shellcmd{64.66803638583747}.
 \item Python uses the conventional order of operations such that multiplication has a higher precedence than addition, for example.  To make the expression clearer, or to force a different order of evaluation, you can use parentheses.  For example, \shellcmd{(3 + 6) * -2} prints \shellcmd{-18}.  For full details of operator precedence, see \url{https://docs.python.org/3/reference/expressions.html#evaluation-order}.
 \end{itemize}
+
+\TODO{casting to int, float}
 
 \begin{exercise}
 \begin{enumerate}
@@ -291,6 +296,41 @@ from math import *
 
 print("The area of a circle with radius {r} is {area}" \
 	.format(r=3, area=pi*3**2))
+\end{minted}
+\item If we save this source file to \shellcmd{\home/mpecdt-python/circle-area.py}, and \shellcmd{cd} to the \shellcmd{\home/mpecdt-python/} directory, we can execute our program on the command line like this
+\begin{minted}{bash}
+	$ ./circle-area.py
+\end{minted}
+\item Sometimes it is useful for a Python program to accept command line arguments (as described in chapter~\ref{chap:linux}).  For example, we might want to specify the radius on the command line.  The \shellcmd{sys} module lets us achieve this
+\begin{minted}{python}
+#!/usr/bin/env python3
+from math import *
+import sys
+
+radius = float(sys.argv[1])
+
+print("The area of a circle with radius {r} is {area}" \
+	.format(r=radius, area=pi*radius**2))
+\end{minted}
+Now we can execute the program like this:
+\begin{minted}{bash}
+$ ./circle-area.py 4.5
+The area of a circle with radius 4.5 is 63.61725123519331
+\end{minted}
+The \shellcmd{argv} variable is an array of strings.  We will describe arrays later in section~\TODO{xref}.
+
+\item If you have a lot of input data, it isn't convenient to provide it as a command line argument.  Instead, we can store the data in a file and use linux to send this data to our Python program.
+
+We will modify our \shellcmd{circle-area.py} program to demonstrate this:
+\begin{minted}{python}
+#!/usr/bin/env python3
+from math import *
+import sys
+
+radius = float(sys.argv[1])
+
+print("The area of a circle with radius {r} is {area}" \
+	.format(r=radius, area=pi*radius**2))
 \end{minted}
 
 \end{itemize}
