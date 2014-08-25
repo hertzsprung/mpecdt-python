@@ -157,7 +157,6 @@ using \keys{ctrl+d} when you have finished entering the list.
 \item Python provides a variety of numeric operators including addition (\shellcmd{+}), subtraction (\shellcmd{-}), multiplication (\shellcmd{*}), division (\shellcmd{/}) and exponentiation (\shellcmd{**})
 \item Values can be combined with operators to form expressions.  Python can evaluate expressions and print the result to the command line.  For example, \shellcmd{3 + 6 * -2} prints \shellcmd{-9}, and \shellcmd{5.3 ** 2.5} prints \shellcmd{64.66803638583747}.
 \item Python uses the conventional order of operations such that multiplication has a higher precedence than addition, for example.  To make the expression clearer, or to force a different order of evaluation, you can use parentheses.  For example, \shellcmd{(3 + 6) * -2} prints \shellcmd{-18}.  For full details of operator precedence, see \url{https://docs.python.org/3/reference/expressions.html#evaluation-order}.
-%\item Variables are used to store data.  A variable should be given a name that describes its purpose, such as \shellcmd{bank\_balance}, \shellcmd{user\_name} or \shellcmd{overdrawn}.
 \end{itemize}
 
 \begin{exercise}
@@ -219,7 +218,28 @@ from math import *
 \item The \shellcmd{math} module also includes trigonometric and hyperbolic functions, and also defines the constants $e$ and $\pi$.  For example, we could use them in expressions such as \shellcmd{e ** (-1/3)} or \shellcmd{sin(pi/2)}.
 \end{itemize}
 
+\section{Variables}
+\begin{itemize}
+	\item So far, our expressions have only contained fixed values (known as `literals' in Python)
+	\item We can also store variable data.  A variable should be given a name that describes its purpose, such as \shellcmd{bank\_balance}, \shellcmd{user\_name} or \shellcmd{overdrawn}.  \textit{Can you suggest suitable data types for each of these variables?}
+	\item Before we can use variables in an expression, we must assign a value.  Here are some examples of assignment statements:
+\begin{minted}{python}
+	bank_balance = -193
+	user_name = "Joe Bloggs"
+\end{minted}
+	\item A variable's value can also be assigned by evaluating an expression.  For example, we can set the \shellcmd{overdrawn} variable like this:
+\begin{minted}{python}
+	overdrawn = bank_balance < 0
+\end{minted}
+	\item You can assign values to multiple variables.  If we wanted to define a point with coordinates $x, y, z$ we could write
+\begin{minted}{python}
+	(x, y, z) = 13.4, -2.8, 4.0
+\end{minted}
+	\item A variable can be given a new value using another assignment statement.  Although Python does not enforce it, it is good practice to assign values of the same data type.
+\end{itemize}
+
 \section{Textual data}
+\label{sec:textual}
 \begin{itemize}
 \item Python has a data type for textual data.  This type is called a `string' because it comprises a string of characters.
 \item A string is enclosed in single or double quotes.  Examples of string values are \shellcmd{'hello world'} and \shellcmd{"The quick brown fox"}.
@@ -250,8 +270,30 @@ Which will print
 
 \begin{exercise}
 \TODO{show how == and != are dangerous with fp}
-\TODO{something involving math functions and string formatting}
+\TODO{something involving math functions, variables and string formatting}
 \end{exercise}
+
+\section{Python source files}
+\begin{itemize}
+\item So far, we have only evaluated Python expressions using the interactive IPython \TODO{console}.  However, complete programs are stored in files.  These are called `source files' since they contain the program's `source code'.  Python source file names have the suffix \shellcmd{.py}.
+\item In linux, we must do two things to allow us to execute a Python source file:
+\begin{enumerate}
+	\item At the top of the file, add the line
+\begin{minted}{bash}
+#!/usr/bin/env python3
+\end{minted}
+	\item At the command line, we must issue the command \shellcmd{chmod +x \shellvar{source.py}} (short for `change mode')
+\end{enumerate}
+\item When we used the interactive console to evaluate expressions, the results were printed immediately.  However, we must use the \shellcmd{print()} function in a Python program.  For example, to print the area of a circle, as we did in section~\ref{sec:textual}, we could write the following program
+\begin{minted}{python}
+#!/usr/bin/env python3
+from math import *
+
+print("The area of a circle with radius {r} is {area}" \
+	.format(r=3, area=pi*3**2))
+\end{minted}
+
+\end{itemize}
 
 %\url{https://docs.python.org/3/tutorial/floatingpoint.html}
 
