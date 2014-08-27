@@ -271,6 +271,23 @@ Which will print
 
 \item There are many more ways to format data, for more information see \url{https://docs.python.org/3/library/string.html#formatspec}.
 
+\item If you have a particularly long string, there are a couple of ways of writing them whilst keeping your code looking tidy
+\begin{enumerate}
+\item Use a multi-line string.  This is useful when you want to preserve line breaks in the text.  Multi-line strings are enclosed in three double quotes, for example
+\begin{minted}{python}
+"""An old silent pond...
+A frog jumps into the pond,
+splash! Silence again."""
+\end{minted}
+\item Alternatively, use can use the string concatenation operator (\shellcmd{+}).  This lets you split a long string onto several lines of source code:
+\begin{minted}{python}
+"An old silent pond... " + \
+"A frog jumps into the pond, " + \
+"splash! Silence again."
+\end{minted}
+This string will be printed on a single, long line.
+\end{enumerate}
+
 \end{itemize}
 
 \begin{exercise}
@@ -288,7 +305,7 @@ Write some Python code that takes the mean of two real numbers.  The ceiling of 
 \begin{minted}{bash}
 #!/usr/bin/env python3
 \end{minted}
-	\item At the command line, we must issue the command \shellcmd{chmod +x \shellvar{source.py}} (short for `change mode')
+	\item At the command line, we must issue the command \shellcmd{chmod +x \shellvar{source.py}} (\shellcmd{chmod} is short for `change mode', and \shellcmd{+x} means `enable execution')
 \end{enumerate}
 \item When we used the interactive console to evaluate expressions, the results were printed immediately.  However, we must use the \shellcmd{print()} function in a Python program.  For example, to print the area of a circle, as we did in section~\ref{sec:textual}, we could write the following program
 \begin{minted}{python}
@@ -345,9 +362,67 @@ $ ./circle-area.py < radius.txt > area.txt
 \end{itemize}
 
 \begin{exercise}
-Using the code you wrote in Practical \TODO{xref}, create a complete Python program that has the same behaviour.  You should supply the two numbers as command line arguments.
+Using the code you wrote in Practical \TODO{xref}, create a complete Python program that has the same behaviour as before.  You should supply the two numbers as command line arguments.
 	\TODO{additional exercise: write a second command and pipe the two together, maybe with a sort in the middle}
 \end{exercise}
+
+\section{Functions}
+\TODO{make sure people are aware of tab/spaces and their significance in python}
+
+\begin{itemize}
+	\item We have already come across some functions provided by Python, such as \shellcmd{sqrt()} and \shellcmd{print()}.  We can also define our own functions in our Python programs.
+	\item Functions in Python are somewhat more general that functions in mathematics because they do not need to take any input or return any output.
+	\item The behaviour of a function has to be defined before it can be used in an expression.  We do this with the \shellcmd{def} keyword.  The behaviour of the function follows on subsequent indented lines.
+	\item The most trivial function is one which has no input or output, and does nothing:
+\begin{minted}{python}
+def do_nothing():
+	pass
+\end{minted}
+This function has the name \shellcmd{do\_nothing}.  It has just one line of code that defines its behaviour: we use the special \shellcmd{pass} keyword to instruct Python to do nothing.  We can call this function by writing \shellcmd{do\_nothing()}.
+	\item A more interesting function takes one or more arguments.  For example, we can rewrite our circle area calculator as a function with two arguments:
+\begin{minted}{python}
+def print_circle_area(radius, area):
+	print("The area of a circle " + \
+	"with radius {r} is {area:.4g}" \
+	.format(r=radius, area=area))
+
+radius = 4.5
+print_circle_area(radius, pi*radius**2)
+\end{minted}
+\item It is good practice to document functions using multi-line strings:
+\begin{minted}{python}
+def print_circle_area(radius, area):
+	"""Print the specified radius and area of a circle.
+	Radius is printed with Python default formatting.
+	Area is formatted to four significant digits"""
+
+	print("The area of a circle " + \
+	"with radius {r} is {area:.4g}" \
+	.format(r=radius, area=area))
+\end{minted}
+
+\item A function can also return a value.  Coming back to the circle area calculator, we can now rewrite the program as follows
+\begin{minted}{python}
+#!/usr/bin/env python3
+from math import *
+
+def circle_area(radius):
+	return pi*radius**2
+
+def print_circle_area(radius, area):
+	print("The area of a circle " + \
+	"with radius {r} is {area:.4g}" \
+	.format(r=radius, area=area))
+
+radius = 4.5
+area = circle_area(radius)
+print_circle_area(radius, area)
+\end{minted}
+\textit{Can you see a potential problem with the \texttt{print_circle_area()} function?  How might you improve it?}
+\item \TODO{default arguments}
+\end{itemize}
+
+\section{Control structures}
 
 %\url{https://docs.python.org/3/tutorial/floatingpoint.html}
 
