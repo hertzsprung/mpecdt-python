@@ -493,20 +493,55 @@ An array is a data structure that holds an ordered list of values.  We will look
 \begin{minted}{python}
 	range(3)         # [0, 1, 2]
 	range(2, 5)      # [2, 3, 4]
-	range(3, -7, -3) # [3, 0, -3, -6]
-\end{minted}
+	range(3, -7, -3) # [__________________________]
+\end{minted} 
+                         % [3, 0, -3, -6]
+For more information on ranges, refer to \url{https://docs.python.org/3/library/stdtypes.html#range}
 \end{itemize}
 
-\subsection{Querying}
+\subsection{Manipulation}
 \begin{itemize}
 \item To determine the number of elements in an array, use the \shellcmd{len()} function.  For example, \shellcmd{len([6, 2, 8])} evaluates to 3, and \shellcmd{len([])} evaluates to 0.
+\item Array elements are indexed by number, starting at zero.  To get the value at a given index, we use square brackets again:
+\begin{minted}{python}
+a = [3, 0, -3, -6]
+print(a[2])
+\end{minted}
+will print \shellcmd{-3}.
+
+\item We can use the same indexing technique to assign a new value to a specific element
+\begin{minted}{python}
+a = [3, 0, -3, -6]
+a[2] *= 4
+print(a[2])
+\end{minted}
+will print \shellcmd{-12}.
+
+\item Python provides a powerful tool, called `array slicing', that lets us access specific parts of an array.  There are several ways to slice an array\footnote{Source: \url{http://stackoverflow.com/a/509295/150884}}:
+\begin{minted}{python}
+my_array[a:b] # elements a (inclusive) to b (exclusive)
+my_array[a:]  # all elements from a (inclusive) to array end
+my_array[:b]  # all elements from array start to b (exclusive)
+my_array[a:b:step] # elements a (inclusive) to b (exclusive) at each step
+\end{minted}
+where \shellcmd{a} and \shellcmd{b} are indexes into the array.
+\item We can also use negative indexes with array slicing to index from the end of the array:
+\begin{minted}{python}
+my_array[-1]    # last element
+my_array[-2:]   # last two elements
+my_array[:-2]   # all except the last two elements
+\end{minted}
+\textit{How could you reverse a string using array slicing?}
 \end{itemize}
 
-\subsection{Modification}
-% nesting
-% range()
-% indexing
-% slicing
+\item Possibly the most common operation on arrays is `iteration', in which the same code is executed for each element in an array.  We can iterate over an array using a \shellcmd{for} loop.
+\item To print the first few multiples of ten, we could write
+\begin{minted}{python}
+for i in range(5):
+	print(10**i)
+\end{minted}
+
+% nesting?
 
 \begin{exercise}
 \TODO{rewrite the Blast off! example using a for loop}

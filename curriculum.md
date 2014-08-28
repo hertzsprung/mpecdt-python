@@ -64,6 +64,7 @@ Wrap up: what we've covered and what we're covering tomorrow
 Day 3
 =====
 
+- lambdas
 - linear algebra
 - optimisation problem
 
