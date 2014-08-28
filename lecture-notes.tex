@@ -40,6 +40,8 @@
 {\stepcounter{exercisectr}\begin{framewithtitle}{Practical \arabic{exercisectr}}}
 {\end{framewithtitle}}
 
+\newenvironment{py}{\begin{minted}{python}}{\end{minted}}
+
 \newcommand{\shellcmd}{\texttt}
 \newcommand{\shellvar}[1]{$\langle \text{#1}\rangle$}
 \newcommand{\additional}{\medskip\noindent{\textit{Additional exercises}}}
@@ -146,6 +148,10 @@ using \keys{ctrl+d} when you have finished entering the list.
 
 \section{Installing Python}
 
+\begin{minted}{bash}
+$ sudo apt-get install ipython3 python3-tk
+\end{minted}
+
 \TODO{IPython.  quit with ctrl-d}
 
 \section{Numeric data}
@@ -241,6 +247,21 @@ from math import *
 	(x, y, z) = 13.4, -2.8, 4.0
 \end{minted}
 	\item A variable can be given a new value using another assignment statement.  Although Python does not enforce it, it is good practice to assign values of the same data type.
+	\item We can increment the value of a numeric variable like this
+\begin{minted}{python}
+	x += 5
+\end{minted}
+Which is equivalent to writing
+\begin{minted}{python}
+	x = x + 5
+\end{minted}
+Similarly, we can decrement, multiply, divide or exponentiate by placing the operator before the equals sign:
+\begin{minted}{python}
+	x -= 5
+	x *= 3
+	x /= 4.2
+	x **= -1/2
+\end{minted}
 \end{itemize}
 
 \section{Textual data}
@@ -418,11 +439,78 @@ radius = 4.5
 area = circle_area(radius)
 print_circle_area(radius, area)
 \end{minted}
-\textit{Can you see a potential problem with the \texttt{print_circle_area()} function?  How might you improve it?}
+\textit{Can you see a potential problem with the \texttt{print\_circle\_area()} function?  How might you improve it?}
 \item \TODO{default arguments}
 \end{itemize}
 
 \section{Control structures}
+\begin{itemize}
+	\item We can evaluate boolean expressions to control which lines of code are executed.  For example
+\begin{minted}{python}
+bank_balance = -13
+
+if bank_balance >= 0:
+	print('In the black')
+else:
+	print('Overdrawn')
+\end{minted}
+Once again, we use indentation to specify the lines of code that belong to each case.
+	\item If we need to test for more than one condition, we can use the \shellcmd{elif} keyword (a contraction of `else if')
+\begin{minted}{python}
+velocity = 23
+
+if velocity < 0:
+	print('Reverse gear')
+elif velocity > 40:
+	print('High gear')
+elif velocity > 0:
+	print('Low gear')
+else:
+	print('Neutral')
+\end{minted}
+Notice that we can use as multiple \shellcmd{elif} statements.
+	\item If we need to execute the same code many times, we can use a control structure called a `loop'.  Python offers two loop types: the \shellcmd{while} loop and the \shellcmd{for} loop.  We discuss \shellcmd{for} loops later in section \TODO{xref}.
+	\item A \shellcmd{while} loop is used to repeatedly execute code until a given boolean expression evaluates to \shellcmd{True}:
+\begin{minted}{python}
+counter = 5
+while counter > 0:
+	print(counter)
+	counter -= 1
+
+print('Blast off!')
+\end{minted}
+We will rewrite this more succinctly using a \shellcmd{for} loop in Practical \TODO{xref}.
+\end{itemize}
+
+\section{Python arrays}
+An array is a data structure that holds an ordered list of values.  We will look at two array implementations: first, Python's built-in array data type and, second, the array type provided by the \shellcmd{numpy} module.  In this section, we will look at Python's built-in arrays.
+
+\subsection{Creation}
+\begin{itemize}
+\item We can create an array by surrounding a comma-separated list with square brackets.  Example arrays are \shellcmd{[5.8, 2.0, -4.3e2]}, \shellcmd{["bob", "charlie", "alice"]}, and \shellcmd{[]} (an array with no elements)
+\item It is good practice to use the same data type for all array elements (for example, an array of integers, or an array of booleans, but not an array containing a mixture of integer and boolean elements)
+\item To create an integer sequence, use the \shellcmd{range()} function.  This function lets you specify the end of the sequence, the start and end, and an optional step.  Here are some examples:
+\begin{minted}{python}
+	range(3)         # [0, 1, 2]
+	range(2, 5)      # [2, 3, 4]
+	range(3, -7, -3) # [3, 0, -3, -6]
+\end{minted}
+\end{itemize}
+
+\subsection{Querying}
+\begin{itemize}
+\item To determine the number of elements in an array, use the \shellcmd{len()} function.  For example, \shellcmd{len([6, 2, 8])} evaluates to 3, and \shellcmd{len([])} evaluates to 0.
+\end{itemize}
+
+\subsection{Modification}
+% nesting
+% range()
+% indexing
+% slicing
+
+\begin{exercise}
+\TODO{rewrite the Blast off! example using a for loop}
+\end{exercise}
 
 %\url{https://docs.python.org/3/tutorial/floatingpoint.html}
 
