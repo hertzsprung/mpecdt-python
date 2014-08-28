@@ -1,13 +1,13 @@
 http://www.scipy.org/
 
-- control flow
+/ control flow
 - data types
-- arrays and data structures
-- IPython
+/ arrays and data structures
+/ IPython
 - automated testing
 
 tasks
-- root finding
+/ root finding
 - integration
 - linear algebra package
 
@@ -64,6 +64,7 @@ Wrap up: what we've covered and what we're covering tomorrow
 Day 3
 =====
 
+- dictionaries
 - lambdas
 - linear algebra
 - optimisation problem

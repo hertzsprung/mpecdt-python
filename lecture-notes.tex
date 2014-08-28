@@ -146,13 +146,24 @@ using \keys{ctrl+d} when you have finished entering the list.
 
 \chapter{The Python programming language}
 
-\section{Installing Python}
+\section{Installing Python on Ubuntu 14.04}
+\begin{enumerate}
+\item Launch the terminal application as shown in Figure~\ref{fig:term}.  You should see a command line with a flashing prompt.
+\item Enter the command \shellcmd{sudo apt-get install ipython3 python3-tk}.  You will be prompted to enter your password.  Enter \keys{Y} when prompted to continue.
+\item To test that Python is working, run the \shellcmd{ipython3} command.  Your terminal window should look something like Figure~\ref{fig:ipython3}.  Try evaluating an expression at the IPython prompt, such as \shellcmd{3 + 5}.  You can return to the linux command line by typing \keys{\ctrl+d}.
+\end{enumerate}
 
-\begin{minted}{bash}
-$ sudo apt-get install ipython3 python3-tk
-\end{minted}
+\begin{figure}
+	\includegraphics[width=\textwidth]{terminal.png}
+	\caption{Launching a terminal in Ubuntu}
+	\label{fig:term}
+\end{figure}
 
-\TODO{IPython.  quit with ctrl-d}
+\begin{figure}
+	\includegraphics[width=\textwidth]{ipython3.png}
+	\caption{The \shellcmd{ipython3} prompt}
+	\label{fig:ipython3}
+\end{figure}
 
 \section{Numeric data}
 \begin{itemize}
@@ -388,6 +399,7 @@ Using the code you wrote in Practical \TODO{xref}, create a complete Python prog
 \end{exercise}
 
 \section{Functions}
+
 \TODO{make sure people are aware of tab/spaces and their significance in python}
 
 \begin{itemize}
@@ -440,7 +452,16 @@ area = circle_area(radius)
 print_circle_area(radius, area)
 \end{minted}
 \textit{Can you see a potential problem with the \texttt{print\_circle\_area()} function?  How might you improve it?}
-\item \TODO{default arguments}
+\item Finally, you can create a function with a mixture of mandatory and optional arguments.  If an optional argument is omitted from a function call, a default value is used.  For example
+\begin{minted}{python}
+def wind_stress(u, rho_air=1.3, drag_coeff=10e-3):
+	return drag_coeff * rho_air * u**2
+
+print(wind_stress(10, 1.28, 8e-3))
+print(wind_stress(10))
+print(wind_stress(10, drag_coeff=8e-3))
+\end{minted}
+In the last example, notice how we specify the name of the \shellcmd{drag\_coeff} argument explicitly.  \textit{Can you see why this is necessary in this case?}
 \end{itemize}
 
 \section{Control structures}
@@ -479,6 +500,7 @@ while counter > 0:
 
 print('Blast off!')
 \end{minted}
+\label{blast-off}
 We will rewrite this more succinctly using a \shellcmd{for} loop in Practical \TODO{xref}.
 \end{itemize}
 
@@ -532,20 +554,32 @@ my_array[-2:]   # last two elements
 my_array[:-2]   # all except the last two elements
 \end{minted}
 \textit{How could you reverse a string using array slicing?}
-\end{itemize}
 
-\item Possibly the most common operation on arrays is `iteration', in which the same code is executed for each element in an array.  We can iterate over an array using a \shellcmd{for} loop.
-\item To print the first few multiples of ten, we could write
+\item Possibly the most common operation on arrays is `iteration', in which the same code is executed for each element in an array.  We can iterate over an array using a \shellcmd{for} loop.  To print the first few multiples of ten, we could write
 \begin{minted}{python}
 for i in range(5):
 	print(10**i)
 \end{minted}
+\end{itemize}
 
 % nesting?
 
 \begin{exercise}
-\TODO{rewrite the Blast off! example using a for loop}
+\begin{enumerate}
+\item Rewrite the `Blast off!' example on page~\pageref{blast-off} using a \shellcmd{for} loop
+
+\item The bisection method can be used to find the approximate solution to a function $f(x)$ such that the the error is less than the tolerance value $\epsilon$ (that is, $| f(x) | < \epsilon$).  Start with two values $a$ and $b$ such that $f(a) \leq f(x) \leq f(b)$.  At each iteration, find the midpoint $c = \left(a + b\right) / 2$ and calculate $f(c)$.  The function should terminate if $| f(c) | < \epsilon$ or the maximum number of iterations is reached.
+
+Implement a root finding function using the bisection method.  Use it to find an approximate solution to $x^5 + x + 1 = 0$ using $a = -1.0$, $b = 1.0$, $\epsilon = \num{1e-6}$ and a suitable maximum number of iterations.
+
+\additional
+
+Modify your root finding function to take $a$, $b$ and $\epsilon$ as arguments.  Make the maximum number of iterations an optional argument with a suitable default value.
+
+\end{enumerate}
 \end{exercise}
+
+\TODO{rewrite the bisection root finder using a function reference}
 
 %\url{https://docs.python.org/3/tutorial/floatingpoint.html}
 
