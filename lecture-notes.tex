@@ -14,6 +14,7 @@
 \usepackage{enumitem}
 \usepackage{siunitx}
 \usepackage{booktabs}
+\usepackage{makeidx}
 
 \newcommand{\FrameTitle}[2]{%
   \fboxrule=\FrameRule \fboxsep=\FrameSep
@@ -50,6 +51,8 @@
 
 \setlist[itemize]{leftmargin=*,label={--}}
 
+\makeindex
+
 \begin{document}
 \tableofcontents*
 
@@ -67,7 +70,9 @@
 $ sort --numeric-sort -r dataSet2013.txt dataSet2014.txt
 \end{minted}
 \item Most commands come with manuals, called `man pages'; if you know the name of the command, \shellcmd{man \shellvar{mycommand}} displays its man page.  Type \keys{q} to return to the command line.
+\index{man@\shellcmd{man}}
 \item Most commands display their results on the command line.  If instead you want to save the output to a file, you can use output redirection (\shellcmd{>}).  For example
+\index{Redirection}
 \begin{minted}{bash}
 $ sort --numeric-sort dataSet2013.txt > sorted2013.txt
 \end{minted}
@@ -91,7 +96,9 @@ $ sort --numeric-sort dataSet2013.txt > sorted2013.txt
 \subsection{Directory manipulation}
 \begin{itemize}
 \item The \shellcmd{ls} command lists the contents of the current directory
+\index{ls@\shellcmd{ls}}
 \item The \shellcmd{cd} command, short for `Change Directory', changes the current directory to a new location
+\index{cd@\shellcmd{cd}}
 \item \shellcmd{cd /home/alice/photos/} moves to the \shellcmd{photos} subdirectory in alice's home directory
 \item If our current directory is \shellcmd{/home/alice/photos/}, the command \shellcmd{cd 2009/kenya} changes our current directory to \shellcmd{/home/alice/photos/2009/kenya/}
 \item To move up a level in the directory tree, we can use the special directory named with two periods (\shellcmd{..})
@@ -99,15 +106,19 @@ $ sort --numeric-sort dataSet2013.txt > sorted2013.txt
 \item And then \shellcmd{cd ../../} moves up another two levels back to alice's home directory, \shellcmd{/home/alice/}
 \item Many other commands also accept a pathname.  For example, \shellcmd{ls \home/photos} lists the contents of alice's photos directory (notice that we have used the special \home\ symbol).
 \item \shellcmd{mkdir -p \shellvar{pathname}} creates a new directory (and will create any directories that don't already exist in the directory tree)
+\index{mkdir@\shellcmd{mkdir}}
 \end{itemize}
 
 \subsection{File manipulation}
 \begin{itemize}
 \item Copy a file with the command \shellcmd{cp \shellvar{source} \shellvar{destination}}
+\index{cp@\shellcmd{cp}}
 \item Copy a directory and all of its contents with \shellcmd{cp -r \shellvar{source} \shellvar{destination}} (where the option \shellcmd{-r} specifies recursive copying)
 \item To rename a file or directory, use \shellcmd{mv \shellvar{source} \shellvar{destination}}
+\index{mv@\shellcmd{mv}}
 \item The same command can be used to move a file or directory to another location in the tree.  For example, \shellcmd{mv photos/2009/kenya photos/2010/} moves the \shellcmd{kenya} directory into the \shellcmd{2010} directory.
 \item To delete a file, use \shellcmd{rm \shellvar{file}}
+\index{rm@\shellcmd{rm}}
 \item To delete a directory and all its contents, first decide if you really want to do this.  There is no Recycle Bin to rescue you.  If you really must, use \shellcmd{rm -r -I \shellvar{directory}}.
 \end{itemize}
 
@@ -115,6 +126,7 @@ $ sort --numeric-sort dataSet2013.txt > sorted2013.txt
 \TODO{move around the FS, create some files and directories etc}
 
 Try sorting a list of numbers.  The \shellcmd{sort} command takes its input from the command line and expects each list item on a new line.  Try entering the following
+\index{sort@\shellcmd{sort}}
 \begin{minted}{bash}
 $ sort --numeric-sort
 11.4
@@ -149,7 +161,7 @@ using \keys{ctrl+d} when you have finished entering the list.
 \section{Installing Python on Ubuntu 14.04}
 \begin{enumerate}
 \item Launch the terminal application as shown in Figure~\ref{fig:term}.  You should see a command line with a flashing prompt.
-\item Enter the command \shellcmd{sudo apt-get install ipython3 python3-tk}.  You will be prompted to enter your password.  Enter \keys{Y} when prompted to continue.
+\item Enter the command \shellcmd{sudo apt-get install ipython3 python3-tk python3-pytest python3-scipy}.  You will be prompted to enter your password.  Enter \keys{Y} when prompted to continue.
 \item To test that Python is working, run the \shellcmd{ipython3} command.  Your terminal window should look something like Figure~\ref{fig:ipython3}.  Try evaluating an expression at the IPython prompt, such as \shellcmd{3 + 5}.  You can return to the linux command line by typing \keys{\ctrl+d}.
 \end{enumerate}
 
@@ -179,8 +191,6 @@ using \keys{ctrl+d} when you have finished entering the list.
 \item Python uses the conventional order of operations such that multiplication has a higher precedence than addition, for example.  To make the expression clearer, or to force a different order of evaluation, you can use parentheses.  For example, \shellcmd{(3 + 6) * -2} prints \shellcmd{-18}.  For full details of operator precedence, see \url{https://docs.python.org/3/reference/expressions.html#evaluation-order}.
 \end{itemize}
 
-\TODO{casting to int, float}
-
 \begin{exercise}
 \begin{enumerate}
 \item Try evaluating \shellcmd{12345678901234567890 + 1234567890123456789}.  Now try evaluating \shellcmd{12345678901234567890.0 + 12345678901234567890.0}.  Can you explain why the answers differ?  What is the significance of the decimal place?
@@ -194,7 +204,12 @@ using \keys{ctrl+d} when you have finished entering the list.
 \section{Boolean logic}
 \begin{itemize}
 \item Another of Python's data types is the boolean type.  Its two values are \shellcmd{True} and \shellcmd{False}.
+\index{false@\shellcmd{False}}
+\index{true@\shellcmd{True}}
 \item We can evaluate boolean expressions using the boolean operators \shellcmd{and}, \shellcmd{or} and \shellcmd{not}.  For example, \shellcmd{not True} evaluates to \shellcmd{False}.  \shellcmd{True or False} evaluates to \shellcmd{True}.
+\index{and@\shellcmd{and}}
+\index{or@\shellcmd{or}}
+\index{not@\shellcmd{not}}
 \item Numeric expressions can be compared for equality or inequality using one of the following operators
 
 \begin{tabular}{ c @{\hspace{2em}} c}
@@ -220,11 +235,20 @@ All of these expressions will evaluate to a boolean value of either \shellcmd{Tr
 \begin{itemize}
 \item The features we have covered so far are all built into the Python language itself.  Additional functions are provided by Python modules.  The standard Python implementation includes modules for common tasks including mathematical calculations, and reading and writing files.  Additional modules can be installed for more specialised tasks such as matrix solving and graph plotting.
 \item The \shellcmd{math} module provides a variety of common mathematical functions.  To gain access to these functions, you must `import' them from the module using the Python command
+\index{math module@\shellcmd{math} module}
+\index{import@\shellcmd{import}}
 \begin{minted}{python}
 from math import *
 \end{minted}
 \item The \shellcmd{math} module is documented at \url{https://docs.python.org/3/library/math.html}.  Some of the most common functions are summarised below
 
+\index{floor@\shellcmd{floor()}}
+\index{ceil@\shellcmd{ceil()}}
+\index{exp@\shellcmd{exp()}}
+\index{log@\shellcmd{log()}}
+\index{log10@\shellcmd{log10()}}
+\index{sqrt@\shellcmd{sqrt()}}
+\index{abs@\shellcmd{abs()}}
 \begin{tabular}{ c @{\hspace{2em}} c}
 	\toprule
 	Mathematical function	& Python function \\ \midrule
@@ -234,8 +258,10 @@ from math import *
 	$\ln(3.3)$		& \shellcmd{log(3.3)} \\
 	$\log(3.3)$		& \shellcmd{log10(3.3)} \\
 	$\sqrt{3.3}$		& \shellcmd{sqrt(3.3)} \\
+	$| -3.3 |$		& \shellcmd{abs(-3.3)}\footnotemark \\
 	\bottomrule
 \end{tabular}
+\footnotetext{\shellcmd{abs()} is actually built into Python, and you do not need to import the \shellcmd{math} module to use it.}
 
 \item The \shellcmd{math} module also includes trigonometric and hyperbolic functions, and also defines the constants $e$ and $\pi$.  For example, we could use them in expressions such as \shellcmd{e ** (-1/3)} or \shellcmd{sin(pi/2)}.
 \end{itemize}
@@ -281,6 +307,7 @@ Similarly, we can decrement, multiply, divide or exponentiate by placing the ope
 \item Python has a data type for textual data.  This type is called a `string' because it comprises a string of characters.
 \item A string is enclosed in single or double quotes.  Examples of string values are \shellcmd{'hello world'} and \shellcmd{"The quick brown fox"}.
 \item You can include placeholders in a string and use the \shellcmd{format} function to replace them with actual values.  For example
+\index{format@\shellcmd{format()}}
 \begin{minted}{python}
 "The area of a circle with radius {r} is {area}" \
   .format(r=3, area=pi*3**2)
@@ -293,6 +320,7 @@ The area of a circle with radius 3 is 28.274333882308138
 Notice that, because the line was quite long, we have used a backslash so that we can continue the code on a second line.
 
 \item If we want to control how values are formatted when they are printed as text, we can use a `format specifier'.  For example, if we want to display the area with 4 significant digits, we can use the format specifier \shellcmd{.4g} and write
+\index{Format specifier}
 \begin{minted}{python}
 "The area of a circle with radius {r} is {area:.4g}" \
   .format(r=3, area=pi*3**2)
@@ -320,6 +348,14 @@ splash! Silence again."""
 This string will be printed on a single, long line.
 \end{enumerate}
 
+\item Sometimes you need to convert a string into a numeric type so that it can be used in calculations.  To create an integer, use \shellcmd{int()}.  To create a float, use \shellcmd{float()}.  For example:
+\index{int@\shellcmd{int()}}
+\index{float@\shellcmd{float()}}
+\begin{minted}{python}
+	int("-943") + 2
+	float("3.5e7") * 100.0
+\end{minted}
+For more information, see \url{https://docs.python.org/3/library/functions.html#int} and \url{https://docs.python.org/3/library/functions.html#float}.
 \end{itemize}
 
 \begin{exercise}
@@ -330,7 +366,7 @@ Write some Python code that takes the mean of two real numbers.  The ceiling of 
 
 \section{Python source files}
 \begin{itemize}
-\item So far, we have only evaluated Python expressions using the interactive IPython \TODO{console}.  However, complete programs are stored in files.  These are called `source files' since they contain the program's `source code'.  Python source file names have the suffix \shellcmd{.py}.
+\item So far, we have only evaluated Python expressions using the interactive IPython shell.  However, complete programs are stored in files.  These are called `source files' since they contain the program's `source code'.  Python source file names have the suffix \shellcmd{.py}.
 \item In linux, we must do two things to allow us to execute a Python source file:
 \begin{enumerate}
 	\item At the top of the file, add the line
@@ -338,8 +374,10 @@ Write some Python code that takes the mean of two real numbers.  The ceiling of 
 #!/usr/bin/env python3
 \end{minted}
 	\item At the command line, we must issue the command \shellcmd{chmod +x \shellvar{source.py}} (\shellcmd{chmod} is short for `change mode', and \shellcmd{+x} means `enable execution')
+\index{chmod@\shellcmd{chmod}}
 \end{enumerate}
 \item When we used the interactive console to evaluate expressions, the results were printed immediately.  However, we must use the \shellcmd{print()} function in a Python program.  For example, to print the area of a circle, as we did in section~\ref{sec:textual}, we could write the following program
+\index{print@\shellcmd{print()}}
 \begin{minted}{python}
 #!/usr/bin/env python3
 from math import *
@@ -367,11 +405,12 @@ Now we can execute the program like this:
 $ ./circle-area.py 4.5
 The area of a circle with radius 4.5 is 63.62
 \end{minted}
-The \shellcmd{argv} variable is an array of strings.  We will describe arrays later in section~\TODO{xref}.
+The \shellcmd{argv} variable is an array of strings.  We will describe arrays later in section~\ref{sec:arrays}.
 
 \item If you have a lot of input data, it isn't convenient to provide it as a command line argument.  Instead, we can store the data in a file and use linux to send this data to our Python program.
 
 We will modify our \shellcmd{circle-area.py} program to demonstrate this:
+\index{readline@\shellcmd{readline()}}
 \begin{minted}{python}
 #!/usr/bin/env python3
 from math import *
@@ -383,6 +422,7 @@ print("The area of a circle with radius {r} is {area:.4g}" \
 	.format(r=radius, area=pi*radius**2))
 \end{minted}
 Now, to execute the program, we must create a text file containing the radius value, let's call it \shellcmd{radius.txt}.  Then we use the input redirection operator (\shellcmd{<}) like so
+\index{Redirection}
 \begin{minted}{bash}
 $ ./circle-area.py < radius.txt
 The area of a circle with radius 4.5 is 63.62
@@ -412,6 +452,7 @@ def do_nothing():
 	pass
 \end{minted}
 This function has the name \shellcmd{do\_nothing}.  It has just one line of code that defines its behaviour: we use the special \shellcmd{pass} keyword to instruct Python to do nothing.  We can call this function by writing \shellcmd{do\_nothing()}.
+\index{pass@\shellcmd{pass}}
 	\item A more interesting function takes one or more arguments.  For example, we can rewrite our circle area calculator as a function with two arguments:
 \begin{minted}{python}
 def print_circle_area(radius, area):
@@ -435,6 +476,7 @@ def print_circle_area(radius, area):
 \end{minted}
 
 \item A function can also return a value.  Coming back to the circle area calculator, we can now rewrite the program as follows
+\index{return@\shellcmd{return}}
 \begin{minted}{python}
 #!/usr/bin/env python3
 from math import *
@@ -457,16 +499,19 @@ print_circle_area(radius, area)
 def wind_stress(u, rho_air=1.3, drag_coeff=10e-3):
 	return drag_coeff * rho_air * u**2
 
-print(wind_stress(10, 1.28, 8e-3))
-print(wind_stress(10))
-print(wind_stress(10, drag_coeff=8e-3))
+print(wind_stress(10.0, 1.28, 8e-3))
+print(wind_stress(10.0))
+print(wind_stress(10.0, drag_coeff=8e-3))
 \end{minted}
+\label{wind-stress}
 In the last example, notice how we specify the name of the \shellcmd{drag\_coeff} argument explicitly.  \textit{Can you see why this is necessary in this case?}
 \end{itemize}
 
 \section{Control structures}
 \begin{itemize}
 	\item We can evaluate boolean expressions to control which lines of code are executed.  For example
+\index{if@\shellcmd{if}}
+\index{else@\shellcmd{else}}
 \begin{minted}{python}
 bank_balance = -13
 
@@ -477,6 +522,7 @@ else:
 \end{minted}
 Once again, we use indentation to specify the lines of code that belong to each case.
 	\item If we need to test for more than one condition, we can use the \shellcmd{elif} keyword (a contraction of `else if')
+\index{elif@\shellcmd{elif}}
 \begin{minted}{python}
 velocity = 23
 
@@ -491,7 +537,9 @@ else:
 \end{minted}
 Notice that we can use as multiple \shellcmd{elif} statements.
 	\item If we need to execute the same code many times, we can use a control structure called a `loop'.  Python offers two loop types: the \shellcmd{while} loop and the \shellcmd{for} loop.  We discuss \shellcmd{for} loops later in section \TODO{xref}.
+\index{loop}
 	\item A \shellcmd{while} loop is used to repeatedly execute code until a given boolean expression evaluates to \shellcmd{True}:
+\index{while@\shellcmd{while}}
 \begin{minted}{python}
 counter = 5
 while counter > 0:
@@ -505,13 +553,14 @@ We will rewrite this more succinctly using a \shellcmd{for} loop in Practical \T
 \end{itemize}
 
 \section{Python arrays}
+\label{sec:arrays}
 An array is a data structure that holds an ordered list of values.  We will look at two array implementations: first, Python's built-in array data type and, second, the array type provided by the \shellcmd{numpy} module.  In this section, we will look at Python's built-in arrays.
 
 \subsection{Creation}
 \begin{itemize}
 \item We can create an array by surrounding a comma-separated list with square brackets.  Example arrays are \shellcmd{[5.8, 2.0, -4.3e2]}, \shellcmd{["bob", "charlie", "alice"]}, and \shellcmd{[]} (an array with no elements)
 \item It is good practice to use the same data type for all array elements (for example, an array of integers, or an array of booleans, but not an array containing a mixture of integer and boolean elements)
-\item To create an integer sequence, use the \shellcmd{range()} function.  This function lets you specify the end of the sequence, the start and end, and an optional step.  Here are some examples:
+\item \index{range@\shellcmd{range()}} To create an integer sequence, use the \shellcmd{range()} function.  This function lets you specify the end of the sequence, the start and end, and an optional step.  Here are some examples:
 \begin{minted}{python}
 	range(3)         # [0, 1, 2]
 	range(2, 5)      # [2, 3, 4]
@@ -540,6 +589,7 @@ print(a[2])
 will print \shellcmd{-12}.
 
 \item Python provides a powerful tool, called `array slicing', that lets us access specific parts of an array.  There are several ways to slice an array\footnote{Source: \url{http://stackoverflow.com/a/509295/150884}}:
+\index{Array slicing}
 \begin{minted}{python}
 my_array[a:b] # elements a (inclusive) to b (exclusive)
 my_array[a:]  # all elements from a (inclusive) to array end
@@ -556,6 +606,8 @@ my_array[:-2]   # all except the last two elements
 \textit{How could you reverse a string using array slicing?}
 
 \item Possibly the most common operation on arrays is `iteration', in which the same code is executed for each element in an array.  We can iterate over an array using a \shellcmd{for} loop.  To print the first few multiples of ten, we could write
+\index{Iteration}
+\index{range@\shellcmd{range()}}
 \begin{minted}{python}
 for i in range(5):
 	print(10**i)
@@ -566,21 +618,148 @@ for i in range(5):
 
 \begin{exercise}
 \begin{enumerate}
-\item Rewrite the `Blast off!' example on page~\pageref{blast-off} using a \shellcmd{for} loop
+\item Turn the `Blast off!' example on page~\pageref{blast-off} into an executable source file
 
-\item The bisection method can be used to find the approximate solution to a function $f(x)$ such that the the error is less than the tolerance value $\epsilon$ (that is, $| f(x) | < \epsilon$).  Start with two values $a$ and $b$ such that $f(a) \leq f(x) \leq f(b)$.  At each iteration, find the midpoint $c = \left(a + b\right) / 2$ and calculate $f(c)$.  The function should terminate if $| f(c) | < \epsilon$ or the maximum number of iterations is reached.
+\item Modify the program to use a \shellcmd{for} loop
 
-Implement a root finding function using the bisection method.  Use it to find an approximate solution to $x^5 + x + 1 = 0$ using $a = -1.0$, $b = 1.0$, $\epsilon = \num{1e-6}$ and a suitable maximum number of iterations.
+\item Put the countdown code into its own function which takes an argument for the starting number.
 
-\additional
+\item Make the starting number an optional argument that defaults to 5.
 
-Modify your root finding function to take $a$, $b$ and $\epsilon$ as arguments.  Make the maximum number of iterations an optional argument with a suitable default value.
+\item \index{Bisection method} The bisection method can be used to find the approximate solution to a function $f(x)$ such that the the error is less than the tolerance value $\epsilon$ (that is, $| f(x) | < \epsilon$).  Start with two values $a$ and $b$ such that $f(a) \leq f(x) \leq f(b)$.  At each iteration, find the midpoint $c = \left(a + b\right) / 2$ and calculate $f(c)$.  The function should terminate if $| f(c) | < \epsilon$ or the maximum number of iterations is reached.
 
+Implement a root finding function using the bisection method.  Use it to find an approximate solution to $x^5 + x + 1 = 0$ using $a = -1.0$, $b = 1.0$, $\epsilon = \num{1e-6}$ and a suitable maximum number of iterations.  Name the function \shellcmd{bisection()} and save it in a source file named \shellcmd{bisection.py}.
 \end{enumerate}
 \end{exercise}
 
-\TODO{rewrite the bisection root finder using a function reference}
+\section{Automated testing}
+\begin{itemize}
+\item Automated tests let you verify the correct behaviour of a function or group of functions.  We will use the `pytest' program to help us do this. \index{pytest}
+\item You can run \shellcmd{py.test-3} at the command line.  It will scan the current directory for any Python source files whose name begins with \shellcmd{test\_}.  In any such files, it will search for functions whose name also begins with \shellcmd{test\_}.
+\item Let's write a test for the \shellcmd{wind\_stress()} function on page~\pageref{wind-stress}.  Assuming that the \shellcmd{wind\_stress()} function is saved in a source file named \shellcmd{wind\_stress.py}, we create a new file named \shellcmd{test\_wind\_stress.py}:
+\begin{minted}{python}
+from wind_stress import *
+
+max_error = 1e-6
+
+def test_wind_stress_defaults():
+	assert abs(wind_stress(10.0) - 1.3) < max_error
+\end{minted}
+\index{assert@\shellcmd{assert}}
+We use the \shellcmd{assert} keyword to verify that the wind stress is equal to $1.3 \pm \num{1e-6}$.  Notice that we've avoided an exact comparison between floats.
+\item It is good practice to write your tests before you write the code itself.  This encourages better code design and forces you to think about the behaviour of your functions.
+\end{itemize}
+
+\begin{exercise}
+\begin{enumerate}
+\item Download \TODO{url} and save it in the same directory as your \shellcmd{bisection.py} source file.  Run the \shellcmd{py.test-3} command and see if your implementation is tested successfully.
+\item 1-point Gaussian quadrature is a method of numeric integration.  For a given function $f(x)$ the integral is given by
+\begin{align*}
+\int_a^b f(x)\:\mathrm{d}x \approx \sum_{i=0}^{N-1} \Delta x\:f \left(a + \left(i + \frac{1}{2} \right) \Delta x \right)
+\end{align*}
+where $\Delta x = \left( b - a \right) / N$.
+
+Write a test for a new function, \shellcmd{integrate(a, b, N)} that will numerically integrate the function $f(x) = \sin(x)$.  The test should compare the return value with the analytic solution for $a=0, b = \pi, N=20$.
+
+Once you are happy that the test is producing a meaningful failure message, go ahead and implement the \shellcmd{integrate()} function itself.
+\end{enumerate}
+\end{exercise}
+
+\chapter{NumPy and SciPy}
+\begin{itemize}
+\item NumPy and SciPy contain a collection of Python modules for solving a variety of mathematical and scientific problems.  In particular, they support vector and matrix data types and contain functions for solving linear algebra problems.
+\item To solve $a x = b$ for $x$, where $a$ is a square matrix, and $b$ and $x$ are $m \times n$ matrices, we can use the function \shellcmd{scipy.lingalg.solve()}.  For example, take the equation
+\begin{align*}
+\begin{bmatrix}
+1 & 1 & 1  \\
+0 & 2 & 5  \\
+2 & 5 & -1
+\end{bmatrix}
+\begin{bmatrix}
+x \\
+y \\
+z
+\end{bmatrix}
+=
+\begin{bmatrix}
+6 \\
+-4 \\
+27
+\end{bmatrix}
+\end{align*}
+In Python, we can solve this as follows
+\begin{minted}{python}
+import scipy.linalg as linalg
+
+a = [[1, 1, 1], [0, 2, 5], [2, 5, -1]]                                          
+b = [6, -4, 27]
+x = linalg.solve(a, b)
+
+print(x)
+\end{minted}
+which prints \shellcmd{[ 5.  3. -2.]}.
+\end{itemize}
+% numpy arrays, initialisation (zeros(), ones(), linspace())
+% dot product
+% http://docs.scipy.org/doc/scipy/reference/tutorial/linalg.html
+
+\TODO{for the numeric integration exercise, plot how the accuracy increases as $\Delta x$ becomes smaller}
+\TODO{rewrite the bisection root finder/numeric integration using a function reference/lambda}
+
+\begin{exercise}
+The one dimensional diffusion equation for a quantity $\phi$ is\footnotemark
+\begin{align*}
+\frac{\partial \phi}{\partial t} &= K \frac{\partial^2 \phi}{\partial x^2}
+\intertext{where $K$ is the diffusion coefficient.  This can be approximated numerically using a backward-in-time, centred-in-space discretisation}
+\frac{\phi_j^{(n+1)} - \phi_j^{(n)}}{\Delta t} &= K \frac{\phi_{j+1}^{(n+1)} - 2 \phi_j^{(n+1)} + \phi_{j-1}^{(n+1)}}{\Delta x^2}
+\intertext{where $x = j \Delta x$ and $t = n \Delta t$.  Rearranging gives}
+\phi_j^{(n+1)} &= \phi_j^{(n)} + d \left( \phi_{j+1}^{(n+1)} - 2 \phi_j^{(n+1)} + \phi_{j-1}^{(n+1)} \right) \\
+- d \phi_{j-1}^{(n+1)} + \left( 1 + 2d \right) \phi_j^{(n+1)} - d \phi_{j+1}^{(n+1)} &= \phi_j^{(n)} 
+\end{align*}
+where $d = K \Delta t / \Delta x^2$ is the non-dimensional diffusion coefficient.  Assume that $j$ ranges between $0$ and $N$, and using periodic boundary conditions gives $\phi_0 = \phi_N$.  Hence we can write a matrix equation
+\begin{align*}
+\begin{bmatrix}
+1+2d & -d   & 0      & 0      & 0      &    &      & -d \\
+-d   & 1+2d & -d     & 0      & 0      &    &      &  0 \\
+     & -d   & 1+2d   & -d     & 0      &    &      &  0 \\
+     &      & \vdots & \vdots & \vdots \\
+     &      &        & \vdots & \vdots \\
+0    &      &        &        &        & -d & 1+2d & -d \\
+-d   & 0    &        &        &        &  0 & -d   & 1+2d 
+\end{bmatrix}
+\begin{bmatrix}
+\phi_0^{(n+1)} \\
+\phi_1^{(n+1)} \\
+\phi_2^{(n+1)} \\
+\vdots \\
+\phi_j^{(n+1)} \\
+\vdots \\
+\phi_{N-1}^{(n+1)}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\phi_0^{(n)} \\
+\phi_1^{(n)} \\
+\phi_2^{(n)} \\
+\vdots \\
+\phi_j^{(n)} \\
+\vdots \\
+\phi_{N-1}^{(n)}
+\end{bmatrix}
+\end{align*}
+\begin{enumerate}
+\item Create an array that represents the initial conditions, $\phi_0$, using $N = 40$.  Let $\phi(x) = \sin(\pi x)$ where $x \in \mathbb{R} | 0 \leq x \leq 1 $.
+\item Assuming $K=\num{1e-3}$ and $\Delta t = 0.1$, create the matrix of coefficients and use \shellcmd{scipy.linalg.solve()} to find the value of $\phi_1$.
+\item Solve for further timesteps up to $t=4$ (you will need to loop over the number of timesteps).  Does the final $\phi$ array look like you would expect?
+\end{enumerate}
+\additional
+
+Try plotting the $\phi$ array as a histogram at each timestep on the console, using one row for each array element, and printing a number of asterisks (\shellcmd{*}) to represent the element's value.
+\end{exercise}
+\footnotetext{Source: MTMW12 Numerical Modelling lecture notes, Hilary Weller}
 
 %\url{https://docs.python.org/3/tutorial/floatingpoint.html}
+
+\printindex
 
 \end{document}

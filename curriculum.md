@@ -1,14 +1,14 @@
 http://www.scipy.org/
 
 / control flow
-- data types
+/ data types
 / arrays and data structures
 / IPython
-- automated testing
+/ automated testing
 
 tasks
 / root finding
-- integration
+/ integration
 - linear algebra package
 
 additional
@@ -54,7 +54,7 @@ PRACTICAL 3: toy python source that takes input from stdin and outputs to stdout
 
 PRACTICAL 4: root finding function
 
-- pytest
+/ pytest
 - numeric integration using midpoint rule
 
 PRACTICAL 5: run existing pytest for root finding alg; test and impl numeric integration
@@ -64,6 +64,7 @@ Wrap up: what we've covered and what we're covering tomorrow
 Day 3
 =====
 
+- git?
 - dictionaries
 - lambdas
 - linear algebra
