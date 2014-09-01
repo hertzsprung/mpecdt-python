@@ -63,6 +63,7 @@ Wrap up: what we've covered and what we're covering tomorrow
 
 Day 3
 =====
+- matplotlib
 
 - git?
 - dictionaries
@@ -70,3 +71,8 @@ Day 3
 - linear algebra
 - optimisation problem
 
+- NetCDF http://unidata.github.io/netcdf4-python/
+- statistics
+  - https://docs.python.org/3/library/statistics.html
+  - http://docs.scipy.org/doc/scipy/reference/tutorial/stats.html
+  - http://pandas.pydata.org/pandas-docs/stable/
