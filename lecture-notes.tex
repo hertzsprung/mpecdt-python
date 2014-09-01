@@ -123,8 +123,23 @@ $ sort --numeric-sort dataSet2013.txt > sorted2013.txt
 \end{itemize}
 
 \begin{exercise}
-\TODO{move around the FS, create some files and directories etc}
+\begin{enumerate}
+	\item Launch a terminal as shown in figure~\ref{fig:term}.  Check that the current directory is your home directory using the \shellcmd{pwd} command.
+	\item Create a new subdirectory.  In future practicals, we will store our Python code in this new directory.  You might want to give it a path such as \shellcmd{\home/mpecdt/python/practicals}, or whatever you prefer.
+	\item Run the \shellcmd{gedit} text editor by using the Ubuntu launcher and save a text file to the new directory.
+	\item Try copying, renaming, and moving the new file to anywhere in your home directory.  As you do this, you might want to \shellcmd{cd} to different directories.  Alternatively, you can stay in the same directory and pass relative paths as arguments to the commands.
+	\item Remembering that there is no Recycle Bin on the linux command line, remove the file using the \shellcmd{rm} command.
+\end{enumerate}
+\end{exercise}
 
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{terminal.png}
+	\caption{Launching a terminal in Ubuntu}
+	\label{fig:term}
+\end{figure}
+
+\begin{exercise}
 Try sorting a list of numbers.  The \shellcmd{sort} command takes its input from the command line and expects each list item on a new line.  Try entering the following
 \index{sort@\shellcmd{sort}}
 \begin{minted}{bash}
@@ -159,17 +174,15 @@ using \keys{ctrl+d} when you have finished entering the list.
 \chapter{The Python programming language}
 
 \section{Installing Python on Ubuntu 14.04}
+\label{sec:installation}
+
 \begin{enumerate}
 \item Launch the terminal application as shown in Figure~\ref{fig:term}.  You should see a command line with a flashing prompt.
 \item Enter the command \shellcmd{sudo apt-get install ipython3 python3-tk python3-pytest python3-scipy}.  You will be prompted to enter your password.  Enter \keys{Y} when prompted to continue.
 \item To test that Python is working, run the \shellcmd{ipython3} command.  Your terminal window should look something like Figure~\ref{fig:ipython3}.  Try evaluating an expression at the IPython prompt, such as \shellcmd{3 + 5}.  You can return to the linux command line by typing \keys{\ctrl+d}.
+\item \TODO{configuring gedit to insert spaces instead of tabs}
 \end{enumerate}
 
-\begin{figure}
-	\includegraphics[width=\textwidth]{terminal.png}
-	\caption{Launching a terminal in Ubuntu}
-	\label{fig:term}
-\end{figure}
 
 \begin{figure}
 	\includegraphics[width=\textwidth]{ipython3.png}
@@ -438,14 +451,21 @@ Using the code you wrote in Practical \TODO{xref}, create a complete Python prog
 	\TODO{additional exercise: write a second command and pipe the two together, maybe with a sort in the middle}
 \end{exercise}
 
-\section{Functions}
+\section{Indentation}
+\index{Indentation}
+\begin{itemize}
+\item Unlike most languages, indentation is significant in Python.  Multiple lines of code are often grouped into `blocks' of code.  All code in a given block must have the same level of indentation.
+\item In subsequent sections, we will discuss some of Python's control structures.  These include the loop structure, in which a block of code is executed zero or more times, and the \shellcmd{if ... else} structure, in which a code block is executed conditionally.
+\item Usually, when you press \keys{\tab}, a special tab character is inserted into the source file.  When writing Python code, you must configure your text editor to insert spaces rather than tab characters.  If you are using \shellcmd{gedit}, we showed how to configure this text editor in section~\ref{sec:installation}.
+\end{itemize}
 
-\TODO{make sure people are aware of tab/spaces and their significance in python}
+\section{Functions}
 
 \begin{itemize}
 	\item We have already come across some functions provided by Python, such as \shellcmd{sqrt()} and \shellcmd{print()}.  We can also define our own functions in our Python programs.
 	\item Functions in Python are somewhat more general that functions in mathematics because they do not need to take any input or return any output.
 	\item The behaviour of a function has to be defined before it can be used in an expression.  We do this with the \shellcmd{def} keyword.  The behaviour of the function follows on subsequent indented lines.
+\index{def@\shellcmd{def}}
 	\item The most trivial function is one which has no input or output, and does nothing:
 \begin{minted}{python}
 def do_nothing():
@@ -559,7 +579,14 @@ An array is a data structure that holds an ordered list of values.  We will look
 \subsection{Creation}
 \begin{itemize}
 \item We can create an array by surrounding a comma-separated list with square brackets.  Example arrays are \shellcmd{[5.8, 2.0, -4.3e2]}, \shellcmd{["bob", "charlie", "alice"]}, and \shellcmd{[]} (an array with no elements)
+
 \item It is good practice to use the same data type for all array elements (for example, an array of integers, or an array of booleans, but not an array containing a mixture of integer and boolean elements)
+
+\item You can `nest' arrays to create multi-dimensional array structures:
+\begin{minted}{python}
+my_square_matrix = [[1, 1, 1], [0, 2, 5], [2, 5, -1]]
+\end{minted}
+
 \item \index{range@\shellcmd{range()}} To create an integer sequence, use the \shellcmd{range()} function.  This function lets you specify the end of the sequence, the start and end, and an optional step.  Here are some examples:
 \begin{minted}{python}
 	range(3)         # [0, 1, 2]
@@ -628,9 +655,14 @@ for i in range(5):
 
 \item \index{Bisection method} The bisection method can be used to find the approximate solution to a function $f(x)$ such that the the error is less than the tolerance value $\epsilon$ (that is, $| f(x) | < \epsilon$).  Start with two values $a$ and $b$ such that $f(a) \leq f(x) \leq f(b)$.  At each iteration, find the midpoint $c = \left(a + b\right) / 2$ and calculate $f(c)$.  The function should terminate if $| f(c) | < \epsilon$ or the maximum number of iterations is reached.
 
-Implement a root finding function using the bisection method.  Use it to find an approximate solution to $x^5 + x + 1 = 0$ using $a = -1.0$, $b = 1.0$, $\epsilon = \num{1e-6}$ and a suitable maximum number of iterations.  Name the function \shellcmd{bisection()} and save it in a source file named \shellcmd{bisection.py}.
+Implement a root finding function using the bisection method.  Use it to find an approximate solution to $x^5 + x + 1 = 0$ using $a = -1.0$, $b = 1.0$, $\epsilon = \num{1e-6}$ and a suitable maximum number of iterations.  Name the function \shellcmd{find\_root(a, b, epsilon)} and save it in a source file named \shellcmd{find\_root.py}.
+
+You might ask how to handle the case where the maximum number of iterations is exceeded.  We will return to this in \TODO{xref for exception handling}.
 \end{enumerate}
 \end{exercise}
+
+\section{Exceptions}
+\TODO{}
 
 \section{Automated testing}
 \begin{itemize}
@@ -647,6 +679,7 @@ def test_wind_stress_defaults():
 \end{minted}
 \index{assert@\shellcmd{assert}}
 We use the \shellcmd{assert} keyword to verify that the wind stress is equal to $1.3 \pm \num{1e-6}$.  Notice that we've avoided an exact comparison between floats.
+\item \TODO{testing exceptions}
 \item It is good practice to write your tests before you write the code itself.  This encourages better code design and forces you to think about the behaviour of your functions.
 \end{itemize}
 
@@ -705,6 +738,7 @@ which prints \shellcmd{[ 5.  3. -2.]}.
 
 \TODO{for the numeric integration exercise, plot how the accuracy increases as $\Delta x$ becomes smaller}
 \TODO{rewrite the bisection root finder/numeric integration using a function reference/lambda}
+\TODO{add a new test to check exception is raised when bisection can't find a root.  modify \shellcmd{find\_root.py} to raise the expected exception.}
 
 \begin{exercise}
 The one dimensional diffusion equation for a quantity $\phi$ is\footnotemark
