@@ -45,6 +45,13 @@ PRACTICAL 4 -- 10-15mins
 
 Source files
 - PRACTICAL 5 -- 10mins
+Indentation
+Functions
+- ASK CLASS: improving print_circle_area() function
+- ASK CLASS: drag_coeff argument explicitly named
+Control structures
+Arrays
+- ASK CLASS: range() output
+- ASK CLASS: reverse a string
 
-Day 2
-=====
+PRACTICAL 6

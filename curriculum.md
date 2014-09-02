@@ -9,7 +9,7 @@ http://www.scipy.org/
 tasks
 / root finding
 / integration
-- linear algebra package
+/ linear algebra package
 
 additional
 - Colins optimisation problem
@@ -55,7 +55,7 @@ PRACTICAL 3: toy python source that takes input from stdin and outputs to stdout
 PRACTICAL 4: root finding function
 
 / pytest
-- numeric integration using midpoint rule
+/ numeric integration using midpoint rule
 
 PRACTICAL 5: run existing pytest for root finding alg; test and impl numeric integration
 

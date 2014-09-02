@@ -1,4 +1,4 @@
-\documentclass[a4paper,twoside]{memoir}
+\documentclass[a4paper,twoside,titlepage]{memoir}
 \usepackage[utf8]{inputenc}
 \usepackage[british]{babel}
 \usepackage{csquotes}
@@ -53,8 +53,34 @@
 
 \makeindex
 
+\title{Scientific programming with Python 3 and GNU/Linux}
+\author{James Shaw}
+\date{September 2014}
+
 \begin{document}
+\frontmatter
+\thispagestyle{plain}
+\begin{titlingpage}
+\makeatletter
+\begin{center}
+\includegraphics[height=8em]{mpe.png}\hspace{2em}
+\includegraphics[height=8em]{python.png}\hspace{2em}
+\includegraphics[height=8em]{tux.png} \\[48pt]
+
+\rule{\textwidth}{.4pt} \\[12pt]
+{ \huge \bfseries \@title \\[16pt] } \rule{\textwidth}{.4pt} \\[54pt]
+{\LARGE \@author}
+\vfill
+{\Large \@date}
+\end{center}
+\makeatother
+\end{titlingpage}
+
+\cleardoublepage
+
 \tableofcontents*
+
+\mainmatter
 
 \chapter{The Linux command line}
 \label{chap:linux}
@@ -178,7 +204,11 @@ using \keys{ctrl+d} when you have finished entering the list.
 
 \begin{enumerate}
 \item Launch the terminal application as shown in Figure~\ref{fig:term}.  You should see a command line with a flashing prompt.
-\item Enter the command \shellcmd{sudo apt-get install ipython3 python3-tk python3-pytest python3-scipy}.  You will be prompted to enter your password.  Enter \keys{Y} when prompted to continue.
+\item Enter the command
+\begin{minted}{bash}
+sudo apt-get install ipython3 python3-tk python3-pytest python3-scipy python3-matplotlib
+\end{minted}
+You will be prompted to enter your password.  Enter \keys{Y} when prompted to continue.  It will take a while to download and install the packages, so you will have to wait for the flashing prompt to reappear.
 \item To test that Python is working, run the \shellcmd{ipython3} command.  Your terminal window should look something like Figure~\ref{fig:ipython3}.  Try evaluating an expression at the IPython prompt, such as \shellcmd{3 + 5}.  You can return to the linux command line by typing \keys{\ctrl+d}.
 \item Launch a text editor by searching for `gedit' in the Ubuntu launcher.  Choose \menu{Edit > Preferences > Editor}.  Enable \menu{Insert spaces instead of tabs} and set \menu{Tab width} to 4.  The configuration is shown in figure~\ref{fig:gedit}.
 \end{enumerate}
@@ -464,7 +494,7 @@ Now we can execute the program like this:
 $ ./circle-area.py 4.5
 The area of a circle with radius 4.5 is 63.62
 \end{minted}
-The \shellcmd{argv} variable is an array of strings.  We will describe arrays later in section~\ref{sec:arrays}.
+The \shellcmd{argv} variable is a list of strings.  We will describe lists later in section~\ref{sec:lists}.
 
 \item If you have a lot of input data, it isn't convenient to provide it as a command line argument.  Instead, we can store the data in a file and use linux to send this data to our Python program.
 
@@ -627,17 +657,17 @@ print('Blast off!')
 We will rewrite this more succinctly using a \shellcmd{for} loop in Practical \TODO{xref}.
 \end{itemize}
 
-\section{Python arrays}
-\label{sec:arrays}
-An array is a data structure that holds an ordered list of values.  We will look at two array implementations: first, Python's built-in array data type and, second, the array type provided by the \shellcmd{numpy} module.  In this section, we will look at Python's built-in arrays.
+\section{Lists}
+\label{sec:lists}
+An list is a data structure that holds an ordered collection of values.
 
 \subsection{Creation}
 \begin{itemize}
-\item We can create an array by surrounding a comma-separated list with square brackets.  Example arrays are \shellcmd{[5.8, 2.0, -4.3e2]}, \shellcmd{["bob", "charlie", "alice"]}, and \shellcmd{[]} (an array with no elements)
+\item We can create a list by surrounding a comma-separated sequence of values with square brackets.  Example lists are \shellcmd{[5.8, 2.0, -4.3e2]}, \shellcmd{["bob", "charlie", "alice"]}, and \shellcmd{[]} (a list with no items)
 
-\item It is good practice to use the same data type for all array elements (for example, an array of integers, or an array of booleans, but not an array containing a mixture of integer and boolean elements)
+\item It is good practice to use the same data type for all list items (for example, a list of integers, or a list of booleans, but not a list containing a mixture of integer and boolean items)
 
-\item You can `nest' arrays to create multi-dimensional array structures:
+\item You can `nest' lists to create multi-dimensional data structures:
 \begin{minted}{python}
 my_square_matrix = [[1, 1, 1], [0, 2, 5], [2, 5, -1]]
 \end{minted}
@@ -654,15 +684,15 @@ For more information on ranges, refer to \url{https://docs.python.org/3/library/
 
 \subsection{Manipulation}
 \begin{itemize}
-\item To determine the number of elements in an array, use the \shellcmd{len()} function.  For example, \shellcmd{len([6, 2, 8])} evaluates to 3, and \shellcmd{len([])} evaluates to 0.
-\item Array elements are indexed by number, starting at zero.  To get the value at a given index, we use square brackets again:
+\item To determine the number of items in a list, use the \shellcmd{len()} function.  For example, \shellcmd{len([6, 2, 8])} evaluates to 3, and \shellcmd{len([])} evaluates to 0.
+\item List items are indexed by number, starting at zero.  To get the value at a given index, we use square brackets again:
 \begin{minted}{python}
 a = [3, 0, -3, -6]
 print(a[2])
 \end{minted}
 will print \shellcmd{-3}.
 
-\item We can use the same indexing technique to assign a new value to a specific element
+\item We can use the same indexing technique to assign a new value to a specific item
 \begin{minted}{python}
 a = [3, 0, -3, -6]
 a[2] *= 4
@@ -670,33 +700,37 @@ print(a[2])
 \end{minted}
 will print \shellcmd{-12}.
 
-\item Python provides a powerful tool, called `array slicing', that lets us access specific parts of an array.  There are several ways to slice an array\footnote{Source: \url{http://stackoverflow.com/a/509295/150884}}:
-\index{Array slicing}
+\item Python provides a powerful tool, called `slicing', that lets us access specific parts of a list.  There are several ways to slice a list\footnote{Source: \url{http://stackoverflow.com/a/509295/150884}}:
+\index{Slicing}
 \begin{minted}{python}
-my_array[a:b] # elements a (inclusive) to b (exclusive)
-my_array[a:]  # all elements from a (inclusive) to array end
-my_array[:b]  # all elements from array start to b (exclusive)
-my_array[a:b:step] # elements a (inclusive) to b (exclusive) at each step
+my_list[a:b] # items a (inclusive) to b (exclusive)
+my_list[a:]  # all items from a (inclusive) to list end
+my_list[:b]  # all items from list start to b (exclusive)
+my_list[a:b:step] # items a (inclusive) to b (exclusive) at each step
 \end{minted}
-where \shellcmd{a} and \shellcmd{b} are indexes into the array.
-\item We can also use negative indexes with array slicing to index from the end of the array:
+where \shellcmd{a} and \shellcmd{b} are indexes into the list.
+\item We can also use negative indexes with slicing to index from the end of the list:
 \begin{minted}{python}
-my_array[-1]    # last element
-my_array[-2:]   # last two elements
-my_array[:-2]   # all except the last two elements
+my_list[-1]    # last item
+my_list[-2:]   # last two items
+my_list[:-2]   # all except the last two items
 \end{minted}
-\textit{How could you reverse a string using array slicing?}
+\textit{How could you reverse a string using slicing?}
 
-\item Possibly the most common operation on arrays is `iteration', in which the same code is executed for each element in an array.  We can iterate over an array using a \shellcmd{for} loop.  To print the first few multiples of ten, we could write
+\item Possibly the most common operation on lists is `iteration', in which the same code is executed for each item in a list.  We can iterate over a list using a \shellcmd{for} loop.  To print the first few multiples of ten, we could write
 \index{Iteration}
 \index{range@\shellcmd{range()}}
 \begin{minted}{python}
 for i in range(5):
 	print(10**i)
 \end{minted}
+\item To add an item to the end of a list, use \shellcmd{append()}:
+\begin{minted}{python}
+my_list = [1, 1, 2, 3]
+my_list.append(my_list[-1] + my_list[-2])
+\end{minted}
+\item To create a new list by repeating the items in an existing list, we can use the multiplication operator.  For example, \shellcmd{[0, 1] * 3} evaluates to \shellcmd{[0, 1, 0, 1, 0, 1]}.
 \end{itemize}
-
-% nesting?
 
 \begin{exercise}
 \begin{enumerate}
@@ -708,16 +742,37 @@ for i in range(5):
 
 \item Make the starting number an optional argument that defaults to 5.
 
-\item \index{Bisection method} The bisection method can be used to find the approximate solution to a function $f(x)$ such that the the error is less than the tolerance value $\epsilon$ (that is, $| f(x) | < \epsilon$).  Start with two values $a$ and $b$ such that $f(a) \leq f(x) \leq f(b)$.  At each iteration, find the midpoint $c = \left(a + b\right) / 2$ and calculate $f(c)$.  The function should terminate if $| f(c) | < \epsilon$ or the maximum number of iterations is reached.
+\item The bisection method can be used to find the approximate solution to a function $f(x)$ such that the the error is less than the tolerance value $\epsilon$ (that is, $| f(x) | < \epsilon$).  Start with two values $a$ and $b$ such that $f(a) \leq f(x) \leq f(b)$.  At each iteration, find the midpoint $c = \left(a + b\right) / 2$ and calculate $f(c)$.  The function should terminate if $| f(c) | < \epsilon$ or the maximum number of iterations is reached.
 
 Implement a root finding function using the bisection method.  Use it to find an approximate solution to $x^5 + x + 1 = 0$ using $a = -1.0$, $b = 1.0$, $\epsilon = \num{1e-6}$ and a suitable maximum number of iterations.  Name the function \shellcmd{find\_root(a, b, epsilon)} and save it in a source file named \shellcmd{find\_root.py}.
 
-You might ask how to handle the case where the maximum number of iterations is exceeded.  We will return to this in \TODO{xref for exception handling}.
+You might ask how to handle the case where the maximum number of iterations is exceeded.  We will return to this in section~\ref{sec:exceptions}.
 \end{enumerate}
 \end{exercise}
 
 \section{Exceptions}
-\TODO{}
+\label{sec:exceptions}
+
+\begin{itemize}
+\item When something goes wrong in a function, an exception is raised.  This can happen, for example, when you try to divide by zero.  Trying to evaluate \shellcmd{1 / 0} in IPython well give raise the exception \shellcmd{ZeroDivisionError}.
+\item Sometimes we want to recover from an exception.  We can do this using the \shellcmd{try ... except} statements:
+\index{try@\shellcmd{try}}
+\index{exception@\shellcmd{except}}
+\begin{minted}{python}
+try:
+	x = int(sys.stdin.readline())
+except ValueError:
+	print("Invalid integer")
+\end{minted}
+\item If we encounter a problem in our own code, we can raise an exception ourselves:
+\begin{minted}{python}
+def repeat_list(l, times):
+	if times < 0:
+		raise ValueError("times must be non-negative")
+	return l * times
+\end{minted}
+\item There are different types of exceptions and you can even create your own.  For more information, see \url{https://docs.python.org/3.4/tutorial/errors.html} and \url{https://docs.python.org/3.4/library/exceptions.html}.
+\end{itemize}
 
 \section{Automated testing}
 \begin{itemize}
@@ -734,13 +789,20 @@ def test_wind_stress_defaults():
 \end{minted}
 \index{assert@\shellcmd{assert}}
 We use the \shellcmd{assert} keyword to verify that the wind stress is equal to $1.3 \pm \num{1e-6}$.  Notice that we've avoided an exact comparison between floats.
-\item \TODO{testing exceptions}
+\item It is a good idea to test conditions under which you expect your function to fail.  We can verify that an exception is raised like so:
+\begin{minted}{python}
+def test_negative_repetitions():
+	with pytest.raises(ValueError):
+		repeat_list([], -3)
+\end{minted}
 \item It is good practice to write your tests before you write the code itself.  This encourages better code design and forces you to think about the behaviour of your functions.
 \end{itemize}
 
 \begin{exercise}
 \begin{enumerate}
-\item Download \TODO{url} and save it in the same directory as your \shellcmd{bisection.py} source file.  Run the \shellcmd{py.test-3} command and see if your implementation is tested successfully.
+\item Download \url{https://raw.githubusercontent.com/hertzsprung/mpecdt-python/master/test_find_root.py} and save it in the same directory as your \shellcmd{find\_root.py} source file.  Run the \shellcmd{py.test-3} command and see if your implementation is tested successfully.
+\item Add a new test to verify that an exception is raised when the \shellcmd{find\_root()} function cannot find a root.  The test should fail with an appropriate diagnostic message.
+\item Modify \shellcmd{find\_root.py} to raise the expected exception so that the new test passes.
 \item 1-point Gaussian quadrature is a method of numeric integration.  For a given function $f(x)$ the integral is given by
 \begin{align*}
 \int_a^b f(x)\:\mathrm{d}x \approx \sum_{i=0}^{N-1} \Delta x\:f \left(a + \left(i + \frac{1}{2} \right) \Delta x \right)
@@ -751,9 +813,56 @@ Write a test for a new function, \shellcmd{integrate(a, b, N)} that will numeric
 
 Once you are happy that the test is producing a meaningful failure message, go ahead and implement the \shellcmd{integrate()} function itself.
 \end{enumerate}
+
+\additional
+
+After consultion the online Python documentation, create a custom exception named \shellcmd{NoRootInBoundsException}.  Modify \shellcmd{test\_find\_root.py} to expect this exception.  Make sure your test fails with a useful message.  Then make the test pass by modifying \shellcmd{find\_root()}.
 \end{exercise}
 
 \chapter{NumPy and SciPy}
+
+\section{NumPy arrays}
+Python has built-in support for list data structures, and these were described in section~\ref{sec:lists}.  Python lists are designed for general-purpose programming.
+If you are performing calculations on large data sets or multi-dimensional data, you may find that NumPy arrays offer give better performance.
+
+\begin{itemize}
+\item There are many ways to create NumPy arrays:
+\begin{enumerate}
+\item We can create one from an existing list:
+\begin{minted}{python}
+import numpy as np
+
+my_list = [4, -2, 3]
+my_array = np.array(my_list)
+\end{minted}
+
+\item We can create an array of a specific size containing all zeros:
+\begin{minted}{python}
+my_array = np.zeros(5)
+print(my_array)
+\end{minted}
+will print \shellcmd{array([ 0.,  0.,  0.,  0.,  0.])}
+
+\item We can create a two-dimensional array with $3$ rows and $2$ columns like this:
+\begin{minted}{python}
+print(np.zeros([3,2]))
+\end{minted}
+which prints
+\begin{minted}{python}
+array([[ 0.,  0.],
+       [ 0.,  0.],
+       [ 0.,  0.]])
+\end{minted}
+
+\item To evenly distribute float values over a given interval, we can use the \shellcmd{linspace()} function.  For example, to create an array of 5 elements with values between $0$ and $1$:
+\begin{minted}{python}
+print(np.linspace(0, 1, num=5))
+\end{minted}
+will print \shellcmd{array([ 0.  ,  0.25,  0.5 ,  0.75,  1.  ])}.  Notice that we used an explicit function argument to make the code clearer.
+\end{enumerate}
+\end{itemize}
+
+\section{Linear algebra}
 \begin{itemize}
 \item NumPy and SciPy contain a collection of Python modules for solving a variety of mathematical and scientific problems.  In particular, they support vector and matrix data types and contain functions for solving linear algebra problems.
 \item To solve $a x = b$ for $x$, where $a$ is a square matrix, and $b$ and $x$ are $m \times n$ matrices, we can use the function \shellcmd{scipy.lingalg.solve()}.  For example, take the equation
@@ -787,12 +896,6 @@ print(x)
 \end{minted}
 which prints \shellcmd{[ 5.  3. -2.]}.
 \end{itemize}
-% numpy arrays, initialisation (zeros(), ones(), linspace())
-% dot product
-% http://docs.scipy.org/doc/scipy/reference/tutorial/linalg.html
-
-\TODO{for the numeric integration exercise, plot how the accuracy increases as $\Delta x$ becomes smaller}
-\TODO{add a new test to check exception is raised when bisection can't find a root.  modify \shellcmd{find\_root.py} to raise the expected exception.}
 
 \begin{exercise}
 The one dimensional diffusion equation for a quantity $\phi$ is\footnotemark
@@ -838,17 +941,69 @@ where $d = K \Delta t / \Delta x^2$ is the non-dimensional diffusion coefficient
 \begin{enumerate}
 \item Create an array that represents the initial conditions, $\phi_0$, using $N = 40$.  Let $\phi(x) = \sin(\pi x)$ where $x \in \mathbb{R} | 0 \leq x \leq 1 $.
 \item Assuming $K=\num{1e-3}$ and $\Delta t = 0.1$, create the matrix of coefficients and use \shellcmd{scipy.linalg.solve()} to find the value of $\phi_1$.
-\item Solve for further timesteps up to $t=4$ (you will need to loop over the number of timesteps).  Does the final $\phi$ array look like you would expect?
+\item Solve for further timesteps up to $t=4$ (you will need to loop over the number of timesteps).  Does the final $\phi$ list look like you would expect?
 \end{enumerate}
 \additional
 
-Try plotting the $\phi$ array as a histogram at each timestep on the console, using one row for each array element, and printing a number of asterisks (\shellcmd{*}) to represent the element's value.
+Try plotting the $\phi$ list as a histogram at each timestep on the console, using one row for each list item, and printing a number of asterisks (\shellcmd{*}) to represent the item's value.
 \end{exercise}
 \footnotetext{Source: MTMW12 Numerical Modelling lecture notes, Hilary Weller}
 
-\chapter{Graphing with \shellcmd{matplotlib}}
+There is a much more functionality in NumPy and SciPy than we can cover here.  The SciPy tutorial gives examples of some typical linear algebra programming, see \url{http://docs.scipy.org/doc/scipy/reference/tutorial/linalg.html}.
+
+\chapter{Graphing with matplotlib}
+\begin{itemize}
+\item The matplotlib library contains modules for plotting graph data.  We can plot a simple line by providing a list of $x$ values and a list of $y$ values as arguments to the \shellcmd{plot()} command:
+\begin{minted}{python}
+import matplotlib.pyplot as plt
+
+plt.plot([1,2,3,4], [1,4,9,16])
+plt.show()
+\end{minted}
+If you try this in IPython, you should see a new window appear as shown in figure~\ref{fig:plt}.  Close the window to recover the IPython prompt.
+\item We can save to a file instead of opening the graph in an interactive window:
+\begin{minted}{python}
+plt.plot([1,2,3,4], [1,4,9,16])
+plt.savefig("my-graph.png")
+\end{minted}
+matplotlib can save PNG or PDF files, amongst other types.  Just use an appropriate filename extension.
+
+\item We can combine matplotlib with NumPy to plot functions:
+\begin{minted}{python}
+from math import pi
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.arange(-pi, pi, pi/100)
+y_sin = np.sin(x)
+y_cos = np.cos(x)
+
+plt.xlabel("$x$")
+plt.plot(x, y_sin, label="$\sin(x)$")
+plt.plot(x, y_cos, label="$\cos(x)$")
+plt.axis([x[0], x[-1], -1, 1])
+plt.legend()
+plt.title("Trigonometric functions")
+plt.show()
+\end{minted}
+Notice that we can use \LaTeX-style notation in our labels.  See \url{http://matplotlib.org/users/pyplot_tutorial.html#using-mathematical-expressions-in-text} for details.
+\end{itemize}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{matplotlib.png}
+	\caption{\shellcmd{matplotlib} output using IPython}
+	\label{fig:plt}
+\end{figure}
+
+\TODO{scatter}
+\TODO{save to file}
+\TODO{temporal data}
+\TODO{contour plot?  wind barbs?}
 
 \begin{exercise}
+\TODO{for the numeric integration exercise, plot how the accuracy increases as $\Delta x$ becomes smaller}
+
 Create plot of diffusion
 \end{exercise}
 
@@ -859,6 +1014,7 @@ Create plot of diffusion
 \TODO{rewrite the bisection root finder/numeric integration using a function reference/lambda}
 \end{exercise}
 
+\section{List comprehensions}
 \section{Dictionaries}
 \TODO{passing functions as arguments}
 \TODO{lambdas}
@@ -866,6 +1022,7 @@ Create plot of diffusion
 
 %\url{https://docs.python.org/3/tutorial/floatingpoint.html}
 
+\backmatter
 \printindex
 
 \end{document}
