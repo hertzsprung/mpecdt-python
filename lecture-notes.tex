@@ -1043,7 +1043,7 @@ Plot the initial and final conditions of the diffusion problem in Practical~\TOD
 \additional
 
 \begin{enumerate}
-	\item For the numeric integration program you wrote in Practical~\TODO{xref}, plot how the accuracy versus $\Delta x$.  What can you conclude from this plot?
+	\item For the numeric integration program you wrote in Practical~\TODO{xref}, plot the accuracy versus $\Delta x$.  What can you conclude from this plot?
 
 	\item Using the matplotlib online documentation, plot an animation of the diffusion process.
 \end{enumerate}
@@ -1086,13 +1086,108 @@ Modify the numeric integration program from Practical~\TODO{xref} to accept the 
 \end{exercise}
 
 \section{List comprehensions}
+\label{sec:list-comp}
+
 \begin{itemize}
-	\item List comprehensions provide a succinct method for transforming and filtering list data.
+	\item List comprehensions provide a succinct method for transforming and filtering list data.  List comprehensions are enclosed in square brackets and contain \shellcmd{for ... in ... if} statements.
+
+	\item We can create a list of squares like:\footnote{Source: \url{https://docs.python.org/3.4/tutorial/datastructures.html}}
+\begin{minted}{python}
+squares = []
+for x in range(5):
+	squares.append(x**2)
+\end{minted}
+so that \shellcmd{squares} evaluates to \shellcmd{[0, 1, 4, 9, 16]}.  Using list comprehensions, the code becomes:
+\begin{minted}{python}
+squares = [x**2 for x in range(5)]
+\end{minted}
+
+	\item List comprehensions are also useful for filtering.  Instead of writing
+\begin{minted}{python}
+names = ['alice', 'walter', 'charlie', 'oscar']
+
+alphabet_start_names = []
+for name in names:
+	if name < 'm':
+		alphabet_start_names.append(name)
+\end{minted}
+we can write
+\begin{minted}{python}
+names = ['alice', 'walter', 'charlie', 'oscar']
+alphabet_start_names = [n for n in names if n < 'm']
+\end{minted}
+\end{itemize}
+
+\begin{exercise}
+	\TODO{take something from https://docs.python.org/3.4/tutorial/datastructures.html, e.g. combinatorics or matrix transpose}
+\end{exercise}
+
+\section{Sets}
+Much like a mathematical set, a Python set is an unordered collection of unique items.
+\begin{itemize}
+\item We can create a set by enclosing the items in braces:
+\begin{minted}{python}
+basket = {'apple', 'orange', 'apple', 'pear'}
+print(basket)
+\end{minted}
+will print \shellcmd{\{'orange', 'pear', 'apple'\}} (though the ordering may differ).
+\item We can test for set membership or lack of membership using \shellcmd{in} and \shellcmd{not in}:
+\begin{minted}{python}
+'pear' in basket # evaluates to True
+'apple' not in basket # evaluates to False
+\end{minted}
+
+\item Set union (\shellcmd{|}), intersection (\shellcmd{\&}) and set subtraction (\shellcmd{-}) are supported.  Additionally, an exclusive-or set operator (\shellcmd{\^}) will return items in one set but not both.  Some examples are given here:
+\begin{minted}{python}
+a = {'apple', 'pear', 'banana'}
+b = {'orange', 'pear'}
+a - b # gives {'apple', 'banana'}
+a | b # gives {'apple', 'pear', 'banana', 'orange'}
+a & b # gives {'pear'}
+a ^ b # gives {'apple', 'banana', 'orange'}
+\end{minted}
+
+\item \TODO{set comprehension}
 \end{itemize}
 
 \section{Dictionaries}
-\section{Classes and objects}
+\begin{itemize}
+\item While Python lists and NumPy arrays allow us to store data that is indexed by sequential integers, Python's dictionary data structure lets us index values by almost anything, be it textual, numeric, or something else.  We call the data that is used to index the value the `key'.
+\item We create a dictionary as follows:
+\begin{minted}{python}
+balance_by_name = {'alice': 248, 'bob': -23, 'charlie': 184}
+\end{minted}
 
+\item The syntax for looking up a value for a given key is much the same as for lists:
+\begin{minted}{python}
+balance_by_name['bob']
+\end{minted}
+
+\item We can remove dictionary entries using the \shellcmd{del} statement.  For example, if we wanted to erase Charlie's bank account:
+\index{del@\shellcmd{del}}
+\begin{minted}{python}
+del balance_by_name['charlie']
+\end{minted}
+
+\item We can check if an entry exists, or does not exist by writing
+\begin{minted}{python}
+'alice' in balance_by_name # evaluates to True
+'bob' not in balance_by_name # evaluates to False
+\end{minted}
+
+\item We can loop over entries as follows:
+\begin{minted}{python}
+for name, balance in balance_by_name.items():
+	print(name + ' has balance ' + balance)
+\end{minted}
+Note that dictionaries are unordered structures.  You cannot rely on the order of entries during iteration.
+
+\item Similar to list comprehensions described in section~\ref{sec:list-comp}, dictionary comprehensions can be used to create new dictionaries.  For example:
+\begin{minted}{python}
+overdrawn_by_name = {name: balance < 0 \
+for (name, balance) in balance_by_name.items()}
+\end{minted}
+\end{itemize}
 
 \backmatter
 \printindex
