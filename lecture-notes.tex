@@ -1142,10 +1142,16 @@ will print \shellcmd{\{'orange', 'pear', 'apple'\}} (though the ordering may dif
 a = {'apple', 'pear', 'banana'}
 b = {'orange', 'pear'}
 a - b # gives {'apple', 'banana'}
-a | b # gives {'apple', 'pear', 'banana', 'orange'}
 a & b # gives {'pear'}
-a ^ b # gives {'apple', 'banana', 'orange'}
 \end{minted}
+\begin{minted}{python}
+a | b # gives {_________________________________________}
+\end{minted}
+\begin{minted}{python}
+a ^ b # gives {_________________________________________}
+\end{minted}
+%a | b # gives {'apple', 'pear', 'banana', 'orange'}
+%a ^ b # gives {'apple', 'banana', 'orange'}
 
 \item \TODO{set comprehension}
 \end{itemize}
