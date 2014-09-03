@@ -71,7 +71,8 @@
 { \huge \bfseries \@title \\[16pt] } \rule{\textwidth}{.4pt} \\[54pt]
 {\LARGE \@author}
 \vfill
-{\Large \@date}
+{\Large \@date} \\[48pt]
+Available online at \\ \href{http://www.datumedge.co.uk/mpecdt/python3-linux/lecture-notes.pdf}{\texttt{datumedge.co.uk/mpecdt/python3-linux/lecture-notes.pdf}}
 \end{center}
 \makeatother
 \end{titlingpage}
@@ -204,9 +205,10 @@ using \keys{ctrl+d} when you have finished entering the list.
 
 \begin{enumerate}
 \item Launch the terminal application as shown in Figure~\ref{fig:term}.  You should see a command line with a flashing prompt.
-\item Enter the command
+\item Enter the command (without any line breaks)
 \begin{minted}{bash}
-sudo apt-get install ipython3 python3-tk python3-pytest python3-scipy python3-matplotlib
+sudo apt-get install ipython3 python3-tk python3-pytest
+  python3-scipy python3-matplotlib
 \end{minted}
 You will be prompted to enter your password.  Enter \keys{Y} when prompted to continue.  It will take a while to download and install the packages, so you will have to wait for the flashing prompt to reappear.
 \item To test that Python is working, run the \shellcmd{ipython3} command.  Your terminal window should look something like Figure~\ref{fig:ipython3}.  Try evaluating an expression at the IPython prompt, such as \shellcmd{3 + 5}.  You can return to the linux command line by typing \keys{\ctrl+d}.
@@ -232,7 +234,7 @@ You will be prompted to enter your password.  Enter \keys{Y} when prompted to co
 \item There are three numeric types built into Python
 	\begin{description}
 	\item[Integer values ($\mathbb{Z}$)]{Examples of integer values are \shellcmd{5} and \shellcmd{-8}.  Unlike some other programming languages, integers in Python have no minimum or maximum value.}
-	\item[Real values ($\mathbb{R}$)]{In Python these are called `floating point' numbers, or just `floats'.  Examples of floats are \shellcmd{5.9}, \shellcmd{13.0} and \shellcmd{-2.39e-12} (where \shellcmd{e} means `exponent', so $\text{\shellcmd{-2.39e-12}} = \num{-2.39e-12}$).  Because floats have limited precision, they can only approximate real numbers, and rounding errors often appear when we do arithmetic with floating point values.  We will explore these pitfalls in Practical~\TODO{xref}.}
+	\item[Real values ($\mathbb{R}$)]{In Python these are called `floating point' numbers, or just `floats'.  Examples of floats are \shellcmd{5.9}, \shellcmd{13.0} and \shellcmd{-2.39e-12} (where \shellcmd{e} means `exponent', so $\text{\shellcmd{-2.39e-12}} = \num{-2.39e-12}$).  Because floats have limited precision, they can only approximate real numbers, and rounding errors often appear when we do arithmetic with floating point values.  We will explore these pitfalls in Practical~\TODO{xref}.  For more information, see \url{https://docs.python.org/3/tutorial/floatingpoint.html}.}
 	\item[Complex values ($\mathbb{C}$)]{Not covered in this course, but details can be found at \url{https://docs.python.org/3/library/stdtypes.html#typesnumeric}}
 	\end{description}
 \item Python provides a variety of numeric operators including addition (\shellcmd{+}), subtraction (\shellcmd{-}), multiplication (\shellcmd{*}), division (\shellcmd{/}) and exponentiation (\shellcmd{**})
@@ -545,6 +547,7 @@ Use the \shellcmd{tee} command to write the output to the command line and to a 
 \end{itemize}
 
 \section{Functions}
+\label{sec:functions}
 
 \begin{itemize}
 	\item We have already come across some functions provided by Python, such as \shellcmd{sqrt()} and \shellcmd{print()}.  We can also define our own functions in our Python programs.
@@ -952,8 +955,10 @@ Try plotting the $\phi$ list as a histogram at each timestep on the console, usi
 There is a much more functionality in NumPy and SciPy than we can cover here.  The SciPy tutorial gives examples of some typical linear algebra programming, see \url{http://docs.scipy.org/doc/scipy/reference/tutorial/linalg.html}.
 
 \chapter{Graphing with matplotlib}
+\index{matplotlib}
 \begin{itemize}
 \item The matplotlib library contains modules for plotting graph data.  We can plot a simple line by providing a list of $x$ values and a list of $y$ values as arguments to the \shellcmd{plot()} command:
+\index{plot@\shellcmd{plot()}}
 \begin{minted}{python}
 import matplotlib.pyplot as plt
 
@@ -961,6 +966,13 @@ plt.plot([1,2,3,4], [1,4,9,16])
 plt.show()
 \end{minted}
 If you try this in IPython, you should see a new window appear as shown in figure~\ref{fig:plt}.  Close the window to recover the IPython prompt.
+\item We can change the style of plot like this:
+\begin{minted}{python}
+plt.plot([1,2,3,4], [1,4,9,16], 'o--')
+plt.show()
+\end{minted}
+The string \shellcmd{'o-'} tells matplot lib to draw dashed lines (\shellcmd{--}) and draw circles at data points (\shellcmd{o}).  There are many more styles documented at \url{http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.plot}.
+
 \item We can save to a file instead of opening the graph in an interactive window:
 \begin{minted}{python}
 plt.plot([1,2,3,4], [1,4,9,16])
@@ -996,31 +1008,91 @@ Notice that we can use \LaTeX-style notation in our labels.  See \url{http://mat
 	\label{fig:plt}
 \end{figure}
 
-\TODO{scatter}
-\TODO{save to file}
-\TODO{temporal data}
-\TODO{contour plot?  wind barbs?}
+\section{Temporal data}
+We will not go into detail about Python's \shellcmd{datetime} module or matplotlib's support for temporal data.  Instead, we will briefly discuss an example plot:
+\index{plot\_date@\shellcmd{plot\_date()}}
+\begin{minted}{python}
+from datetime import date
+import matplotlib.pyplot as plt
+from matplotlib.dates import DayLocator, DateFormatter
+
+dates = [date(2014, 8, 1), \
+	date(2014, 8, 2), \
+	date(2014, 8, 3), \
+	date(2014, 8, 4)]
+magnitudes = [3, 7, 4, 11]
+
+plt.plot_date(dates, magnitudes, linestyle='-')
+
+xaxis = plt.gca().xaxis
+xaxis.set_major_locator(DayLocator())
+xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+
+plt.show()
+\end{minted}
+We choose to customise the $x$ axis tick marks:
+\begin{itemize}
+	\item We obtain a reference to the axes using \shellcmd{gca()}, short for Get Current Axes.
+	\item We locate ticks at each day using \shellcmd{set\_major\_locator()}.
+	\item We specify a date format \textit{YYYY-MM-DD} using \shellcmd{set\_major\_formatter()}.  The date/time format strings are documented at \url{https://docs.python.org/3/library/time.html#time.strftime}.
+\end{itemize}
 
 \begin{exercise}
-\TODO{for the numeric integration exercise, plot how the accuracy increases as $\Delta x$ becomes smaller}
+Plot the initial and final conditions of the diffusion problem in Practical~\TODO{xref}.
 
-Create plot of diffusion
+\additional
+
+\begin{enumerate}
+	\item For the numeric integration program you wrote in Practical~\TODO{xref}, plot how the accuracy versus $\Delta x$.  What can you conclude from this plot?
+
+	\item Using the matplotlib online documentation, plot an animation of the diffusion process.
+\end{enumerate}
 \end{exercise}
 
 \chapter{Advanced Python}
 
 \section{Functions as data}
+In section~\ref{sec:functions} we saw how to define functions and call them.  However, Python lets you treat functions as data, too.  We will show how this powerful tool can make your code cleaner and more flexible.
+
+\begin{itemize}
+	\item Returning to the root finding program from Practical~\TODO{xref}, we might want to reuse the function for finding roots of different functions.  A good way to code this is to pass the function as an argument to the \shellcmd{find\_root()} function:
+\begin{minted}{python}
+def find_root(f, lower_bound, upper_bound, \
+		epsilon=1e-6, max_iterations=100):
+	# very dumb implementation for illustration only
+	midpoint = (lower_bound + upper_bound) / 2
+	approximate_root = f(midpoint)
+	return approximate_root
+
+def quintic(x):
+	return x**5 + x + 1
+
+find_root(quintic, -1.0, 1.0)
+\end{minted}
+Notice that, when we pass the function as an argument, we only use the function name.  We avoid calling the \shellcmd{quintic()} function directly by omitting the parentheses that usually follow the function name.
+
+	\item If our function is small and we do only use it in a single place, Python provides a more compact notation: lambda expressions.  Instead of defining a \shellcmd{quintic()} function, we can write:
+\index{lambda@\shellcmd{lambda}}
+\begin{minted}{python}
+find_root(lambda x: x**5 + x + 1, -1.0, 1.0)
+\end{minted}
+\end{itemize}
 \begin{exercise}
-\TODO{rewrite the bisection root finder/numeric integration using a function reference/lambda}
+Modify the numeric integration program from Practical~\TODO{xref} to accept the integrable function as an argument.  Try integrating some named functions and lambda expressions.
+
+\additional
+
+\TODO{Colin's optimisation problem}
 \end{exercise}
 
 \section{List comprehensions}
+\begin{itemize}
+	\item List comprehensions provide a succinct method for transforming and filtering list data.
+\end{itemize}
+
 \section{Dictionaries}
-\TODO{passing functions as arguments}
-\TODO{lambdas}
 \section{Classes and objects}
 
-%\url{https://docs.python.org/3/tutorial/floatingpoint.html}
 
 \backmatter
 \printindex

@@ -1,5 +1,3 @@
-http://www.scipy.org/
-
 / control flow
 / data types
 / arrays and data structures
@@ -13,7 +11,7 @@ tasks
 
 additional
 - Colins optimisation problem
-- graph plotting
+/ graph plotting
 - netcdf
 - statistics on big data
 

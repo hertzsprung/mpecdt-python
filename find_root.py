@@ -5,9 +5,7 @@ def f(x):
 def midpoint(a, b):
     return (a + b) / 2
 
-def find_root(a, b, epsilon):
-    max_iter = 100
-
+def find_root(f, a, b, epsilon=1e-6, max_iter=100):
     i = 0
     c = midpoint(a, b)
 
@@ -21,4 +19,4 @@ def find_root(a, b, epsilon):
 
     return c
 
-print(find_root(-1.0, 1.0, 1e-6))
+print(find_root(lambda x: x**5 + x + 1, -1.0, 1.0))
