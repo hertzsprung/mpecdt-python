@@ -237,7 +237,7 @@ You will be prompted to enter your password.  Enter \keys{Y} when prompted to co
 	\item[Real values ($\mathbb{R}$)]{In Python these are called `floating point' numbers, or just `floats'.  Examples of floats are \shellcmd{5.9}, \shellcmd{13.0} and \shellcmd{-2.39e-12} (where \shellcmd{e} means `exponent', so $\text{\shellcmd{-2.39e-12}} = \num{-2.39e-12}$).  Because floats have limited precision, they can only approximate real numbers, and rounding errors often appear when we do arithmetic with floating point values.  We will explore these pitfalls in Practical~\TODO{xref}.  For more information, see \url{https://docs.python.org/3/tutorial/floatingpoint.html}.}
 	\item[Complex values ($\mathbb{C}$)]{Not covered in this course, but details can be found at \url{https://docs.python.org/3/library/stdtypes.html#typesnumeric}}
 	\end{description}
-\item Python provides a variety of numeric operators including addition (\shellcmd{+}), subtraction (\shellcmd{-}), multiplication (\shellcmd{*}), division (\shellcmd{/}) and exponentiation (\shellcmd{**})
+\item Python provides a variety of numeric operators including addition (\shellcmd{+}), subtraction (\shellcmd{-}), multiplication (\shellcmd{*}), division (\shellcmd{/}), exponentiation (\shellcmd{**}) and modulus (\shellcmd{\%}).
 \item Values can be combined with operators to form expressions.  Python can evaluate expressions and print the result to the command line.  For example, \shellcmd{3 + 6 * -2} prints \shellcmd{-9}, and \shellcmd{5.3 ** 2.5} prints \shellcmd{64.66803638583747}.
 \item Python uses the conventional order of operations such that multiplication has a higher precedence than addition, for example.  To make the expression clearer, or to force a different order of evaluation, you can use parentheses.  For example, \shellcmd{(3 + 6) * -2} prints \shellcmd{-18}.  For full details of operator precedence, see \url{https://docs.python.org/3/reference/expressions.html#evaluation-order}.
 \end{itemize}
@@ -735,6 +735,13 @@ my_list.append(my_list[-1] + my_list[-2])
 \item To create a new list by repeating the items in an existing list, we can use the multiplication operator.  For example, \shellcmd{[0, 1] * 3} evaluates to \shellcmd{[0, 1, 0, 1, 0, 1]}.
 \end{itemize}
 
+\subsection{Boolean list operations}
+\begin{itemize}
+\item To test if any item in a list is \shellcmd{True}, we can use the built-in \shellcmd{any()} function.
+\item Similarly, to test if all items are \shellcmd{True}, use \shellcmd{all()}.
+\end{itemize}
+These functions are especially useful when combined with comprehensions.  See sections~\ref{sec:list-comp} and \ref{sec:sets} for more information.
+
 \begin{exercise}
 \begin{enumerate}
 \item Turn the `Blast off!' example on page~\pageref{blast-off} into an executable source file
@@ -819,7 +826,7 @@ Once you are happy that the test is producing a meaningful failure message, go a
 
 \additional
 
-After consultion the online Python documentation, create a custom exception named \shellcmd{NoRootInBoundsException}.  Modify \shellcmd{test\_find\_root.py} to expect this exception.  Make sure your test fails with a useful message.  Then make the test pass by modifying \shellcmd{find\_root()}.
+After consulting the online Python documentation, create a custom exception named \shellcmd{NoRootInBoundsException}.  Modify \shellcmd{test\_find\_root.py} to expect this exception.  Make sure your test fails with a useful message.  Then make the test pass by modifying \shellcmd{find\_root()}.
 \end{exercise}
 
 \chapter{NumPy and SciPy}
@@ -1119,10 +1126,17 @@ alphabet_start_names = [n for n in names if n < 'm']
 \end{itemize}
 
 \begin{exercise}
-	\TODO{take something from https://docs.python.org/3.4/tutorial/datastructures.html, e.g. combinatorics or matrix transpose}
+\begin{enumerate}
+	\item Write an automated test for a function \shellcmd{transpose(m)} to transpose a matrix using nested \shellcmd{for} loops.  Once you are happy with the failing test, make it pass by implementing \shellcmd{transpose()}.  
+	\item Modify the \shellcmd{transpose()} function to use nested list comprehensions.  You shouldn't need to modify the test code.
+	\item Do you prefer the code that uses loops or list comprehensions?  Why?
+	\item In real code, you should avoid reimplementing common functions such as this.  Find a standard Python implementation online and change your \shellcmd{transpose()} function to call it instead.  Writing small functions that simply call libraries can be useful: if at a later date you found a better third party library, the changes required to your code are minimal.  What other benefits does this approach bring? % lets you write functions that are more meaningful to your code; convenient place to add logging/other hooks; easier to write automated tests
+\end{enumerate}
 \end{exercise}
 
 \section{Sets}
+\label{sec:sets}
+
 Much like a mathematical set, a Python set is an unordered collection of unique items.
 \begin{itemize}
 \item We can create a set by enclosing the items in braces:
@@ -1153,7 +1167,12 @@ a ^ b # gives {_________________________________________}
 %a | b # gives {'apple', 'pear', 'banana', 'orange'}
 %a ^ b # gives {'apple', 'banana', 'orange'}
 
-\item \TODO{set comprehension}
+\item We can also write comprehensions for sets.  For example, to find the primes less than 100:\footnote{Source: \url{http://stackoverflow.com/q/21770885/150884}}
+\begin{minted}{python}
+primes = {x for x in range(2, 100) \
+	  if not any(x % y == 0 for y in range(2, x))}
+\end{minted}
+where we have used the \shellcmd{any()} built-in function which returns \shellcmd{True} if any item is \shellcmd{True}.
 \end{itemize}
 
 \section{Dictionaries}
@@ -1194,8 +1213,5 @@ overdrawn_by_name = {name: balance < 0 \
 for (name, balance) in balance_by_name.items()}
 \end{minted}
 \end{itemize}
-
-\backmatter
-\printindex
 
 \end{document}

@@ -54,4 +54,49 @@ Arrays
 - ASK CLASS: range() output
 - ASK CLASS: reverse a string
 
-PRACTICAL 6
+PRACTICAL 6: bisection -- 45mins
+
+--------- possible end to day 1 ----------
+
+Day 2
+=====
+Exceptions
+Automated testing
+
+PRACTICAL 7: integration -- 1 hour
+
+Wrap up before break
+
+BREAK
+
+NumPy arrays
+Linear algebra
+
+PRACTICAL 8: diffusion -- 1 hour
+
+-------- possible end to day 2 ----------
+
+Day 3
+=====
+Graphing with matplotlib
+
+PRACTICAL 9: graphing -- 30 mins
+
+BREAK
+
+Functions as data
+
+PRACTICAL 10: lambdas and Colin optimisation -- 20 mins
+
+List comprehensions
+
+PRACTICAL 11: matrix transposition -- 30 mins
+
+Sets
+Dictionaries
+
+Wrap up -- 15 mins
+-------
+- What have we covered?  Shout out, draw on board
+- Advertise git+make session, 4th November 13:00 MET GU01
+
