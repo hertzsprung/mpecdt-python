@@ -1101,7 +1101,18 @@ Modify the numeric integration program from Practical~\ref{ex:bisection} to acce
 
 \additional
 
-\TODO{Colin's optimisation problem}
+\textit{Note: I do not have my own solution for the following exercise, but I am able to help with any programming problems you have!}
+
+Find the vector, constrained with a specified magnitude, for throwing a stone so that it lands at a specified position.
+
+You will need a function which accepts an input vector argument, described in terms of angle and elevation, and returns the landing point.  Use \shellcmd{scipy.optimize.fmin\_cg()} to minimize the distance between the landing point computed by the function, and the desired landing point.
+
+Alter the model to account for:
+\begin{enumerate}
+	\item a prescribed prevailing wind
+	\item the Coriolis effect
+	\item the variation of gravitational acceleration with height
+\end{enumerate}
 \end{exercise}
 
 \section{List comprehensions}
@@ -1142,7 +1153,8 @@ alphabet_start_names = [n for n in names if n < 'm']
 	\item Write an automated test for a function \shellcmd{transpose(m)} to transpose a matrix using nested \shellcmd{for} loops.  Once you are happy with the failing test, make it pass by implementing \shellcmd{transpose()}.  
 	\item Modify the \shellcmd{transpose()} function to use nested list comprehensions.  You shouldn't need to modify the test code.
 	\item Do you prefer the code that uses loops or list comprehensions?  Why?
-	\item In real code, you should avoid reimplementing common functions such as this.  Find a standard Python implementation online and change your \shellcmd{transpose()} function to call it instead.  Writing small functions that simply call libraries can be useful: if at a later date you found a better third party library, the changes required to your code are minimal.  What other benefits does this approach bring? % lets you write functions that are more meaningful to your code; convenient place to add logging/other hooks; easier to write automated tests
+	\item In real code, you should avoid reimplementing common functions such as this.  Find a standard Python implementation for matrix transposition online and change your \shellcmd{transpose()} function to call it instead.
+	\item Writing small functions that simply call libraries can be useful: if at a later date you found a better third party library, the changes required to your code are minimal.  What other benefits does this approach bring? % lets you write functions that are more meaningful to your code; convenient place to add logging/other hooks; easier to write automated tests
 \end{enumerate}
 \end{exercise}
 
@@ -1163,10 +1175,12 @@ will print \shellcmd{\{'orange', 'pear', 'apple'\}} (though the ordering may dif
 'apple' not in basket # evaluates to False
 \end{minted}
 
-\item Set union (\shellcmd{|}), intersection (\shellcmd{\&}) and set subtraction (\shellcmd{-}) are supported.  Additionally, an exclusive-or set operator (\shellcmd{\^}) will return items in one set but not both.  Some examples are given here:
+\item Set union (\shellcmd{|}), intersection (\shellcmd{\&}) and difference (\shellcmd{-}), symmetric difference (\shellcmd{\^}), subset (\shellcmd{<=}) and superset (\shellcmd{>=}) are supported.  Some examples are given here:
 \begin{minted}{python}
 a = {'apple', 'pear', 'banana'}
 b = {'orange', 'pear'}
+{'apple'} <= a # evaluates to True
+{'banana', 'apple'} >= a # evaluates to False
 a - b # gives {'apple', 'banana'}
 a & b # gives {'pear'}
 \end{minted}
