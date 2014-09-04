@@ -38,7 +38,7 @@
 
 \newcounter{exercisectr}
 \newenvironment{exercise}
-{\stepcounter{exercisectr}\begin{framewithtitle}{Practical \arabic{exercisectr}}}
+{\refstepcounter{exercisectr}\begin{framewithtitle}{Practical \arabic{exercisectr}}}
 {\end{framewithtitle}}
 
 \newenvironment{py}{\begin{minted}{python}}{\end{minted}}
@@ -167,6 +167,8 @@ $ sort --numeric-sort dataSet2013.txt > sorted2013.txt
 \end{figure}
 
 \begin{exercise}
+\label{ex:sort}
+
 Try sorting a list of numbers.  The \shellcmd{sort} command takes its input from the command line and expects each list item on a new line.  Try entering the following
 \index{sort@\shellcmd{sort}}
 \begin{minted}{bash}
@@ -234,7 +236,7 @@ You will be prompted to enter your password.  Enter \keys{Y} when prompted to co
 \item There are three numeric types built into Python
 	\begin{description}
 	\item[Integer values ($\mathbb{Z}$)]{Examples of integer values are \shellcmd{5} and \shellcmd{-8}.  Unlike some other programming languages, integers in Python have no minimum or maximum value.}
-	\item[Real values ($\mathbb{R}$)]{In Python these are called `floating point' numbers, or just `floats'.  Examples of floats are \shellcmd{5.9}, \shellcmd{13.0} and \shellcmd{-2.39e-12} (where \shellcmd{e} means `exponent', so $\text{\shellcmd{-2.39e-12}} = \num{-2.39e-12}$).  Because floats have limited precision, they can only approximate real numbers, and rounding errors often appear when we do arithmetic with floating point values.  We will explore these pitfalls in Practical~\TODO{xref}.  For more information, see \url{https://docs.python.org/3/tutorial/floatingpoint.html}.}
+	\item[Real values ($\mathbb{R}$)]{In Python these are called `floating point' numbers, or just `floats'.  Examples of floats are \shellcmd{5.9}, \shellcmd{13.0} and \shellcmd{-2.39e-12} (where \shellcmd{e} means `exponent', so $\text{\shellcmd{-2.39e-12}} = \num{-2.39e-12}$).  Because floats have limited precision, they can only approximate real numbers, and rounding errors often appear when we do arithmetic with floating point values.  We will explore these pitfalls in Practical~\ref{ex:float}.  For more information, see \url{https://docs.python.org/3/tutorial/floatingpoint.html}.}
 	\item[Complex values ($\mathbb{C}$)]{Not covered in this course, but details can be found at \url{https://docs.python.org/3/library/stdtypes.html#typesnumeric}}
 	\end{description}
 \item Python provides a variety of numeric operators including addition (\shellcmd{+}), subtraction (\shellcmd{-}), multiplication (\shellcmd{*}), division (\shellcmd{/}), exponentiation (\shellcmd{**}) and modulus (\shellcmd{\%}).
@@ -243,6 +245,8 @@ You will be prompted to enter your password.  Enter \keys{Y} when prompted to co
 \end{itemize}
 
 \begin{exercise}
+\label{ex:float}
+
 For this practical, you will need to use the IPython interactive shell.  Execute it at the command line using \shellcmd{ipython3}.  If you want to recall lines you typed previously, you can use the \keys{\arrowkeyup} and \keys{\arrowkeydown} arrow keys.
 \begin{enumerate}
 \item Try evaluating \shellcmd{12345678901234567890 + 1234567890123456789}.  Now try evaluating \shellcmd{12345678901234567890.0 + 12345678901234567890.0}.  Can you explain why the answers differ?  What is the significance of the decimal place?
@@ -442,6 +446,8 @@ For more information, see \url{https://docs.python.org/3/library/functions.html#
 \end{itemize}
 
 \begin{exercise}
+\label{ex:mean}
+
 Write some Python code that takes the mean of two real numbers.  The ceiling of the result should be displayed with two significant digits.  You might like to verify your code with these expected values:
 
 \begin{tabular}{S S S}
@@ -525,13 +531,13 @@ $ ./circle-area.py < radius.txt > area.txt
 \end{itemize}
 
 \begin{exercise}
-Using the code you wrote in Practical \TODO{xref}, create a complete Python program that has the same behaviour as before.  You should supply the two numbers as command line arguments.
+Using the code you wrote in Practical~\ref{ex:mean}, create a complete Python program that has the same behaviour as before.  You should supply the two numbers as command line arguments.
 
 \additional
 
 Modify the program to read the two numbers from \shellcmd{stdin}.  Create a file with the two input numbers on separate lines and redirect Python to takes its input from this file.
 
-Create two new files, each containing a single input number.  Using the \shellcmd{cat} command and a pipe (described in Practical~\TODO{xref}), use these files as input to your Python program.
+Create two new files, each containing a single input number.  Using the \shellcmd{cat} command and a pipe (described in Practical~\ref{ex:sort}), use these files as input to your Python program.
 \index{cat@\shellcmd{cat}}
 
 Use the \shellcmd{tee} command to write the output to the command line and to a file.
@@ -644,7 +650,7 @@ else:
 	print('Neutral')
 \end{minted}
 Notice that we can use as multiple \shellcmd{elif} statements.
-	\item If we need to execute the same code many times, we can use a control structure called a `loop'.  Python offers two loop types: the \shellcmd{while} loop and the \shellcmd{for} loop.  We discuss \shellcmd{for} loops later in section \TODO{xref}.
+	\item If we need to execute the same code many times, we can use a control structure called a `loop'.  Python offers two loop types: the \shellcmd{while} loop and the \shellcmd{for} loop.  We discuss \shellcmd{for} loops later in section~\ref{sec:lists}.
 \index{loop}
 	\item A \shellcmd{while} loop is used to repeatedly execute code until a given boolean expression evaluates to \shellcmd{True}:
 \index{while@\shellcmd{while}}
@@ -657,7 +663,7 @@ while counter > 0:
 print('Blast off!')
 \end{minted}
 \label{blast-off}
-We will rewrite this more succinctly using a \shellcmd{for} loop in Practical \TODO{xref}.
+We will rewrite this more succinctly using a \shellcmd{for} loop in Practical~\ref{ex:bisection}.
 \end{itemize}
 
 \section{Lists}
@@ -743,6 +749,8 @@ my_list.append(my_list[-1] + my_list[-2])
 These functions are especially useful when combined with comprehensions.  See sections~\ref{sec:list-comp} and \ref{sec:sets} for more information.
 
 \begin{exercise}
+\label{ex:bisection}
+
 \begin{enumerate}
 \item Turn the `Blast off!' example on page~\pageref{blast-off} into an executable source file
 
@@ -809,6 +817,8 @@ def test_negative_repetitions():
 \end{itemize}
 
 \begin{exercise}
+\label{ex:integration}
+
 \begin{enumerate}
 \item Download \url{https://raw.githubusercontent.com/hertzsprung/mpecdt-python/master/test_find_root.py} and save it in the same directory as your \shellcmd{find\_root.py} source file.  Run the \shellcmd{py.test-3} command and see if your implementation is tested successfully.
 \item Add a new test to verify that an exception is raised when the \shellcmd{find\_root()} function cannot find a root.  The test should fail with an appropriate diagnostic message.
@@ -908,6 +918,8 @@ which prints \shellcmd{[ 5.  3. -2.]}.
 \end{itemize}
 
 \begin{exercise}
+\label{ex:diffusion}
+
 The one dimensional diffusion equation for a quantity $\phi$ is\footnotemark
 \begin{align*}
 \frac{\partial \phi}{\partial t} &= K \frac{\partial^2 \phi}{\partial x^2}
@@ -1045,12 +1057,12 @@ We choose to customise the $x$ axis tick marks:
 \end{itemize}
 
 \begin{exercise}
-Plot the initial and final conditions of the diffusion problem in Practical~\TODO{xref}.
+Plot the initial and final conditions of the diffusion problem in Practical~\ref{ex:diffusion}.
 
 \additional
 
 \begin{enumerate}
-	\item For the numeric integration program you wrote in Practical~\TODO{xref}, plot the accuracy versus $\Delta x$.  What can you conclude from this plot?
+	\item For the numeric integration program you wrote in Practical~\ref{ex:integration}, plot the accuracy versus $\Delta x$.  What can you conclude from this plot?
 
 	\item Using the matplotlib online documentation, plot an animation of the diffusion process.
 \end{enumerate}
@@ -1062,7 +1074,7 @@ Plot the initial and final conditions of the diffusion problem in Practical~\TOD
 In section~\ref{sec:functions} we saw how to define functions and call them.  However, Python lets you treat functions as data, too.  We will show how this powerful tool can make your code cleaner and more flexible.
 
 \begin{itemize}
-	\item Returning to the root finding program from Practical~\TODO{xref}, we might want to reuse the function for finding roots of different functions.  A good way to code this is to pass the function as an argument to the \shellcmd{find\_root()} function:
+	\item Returning to the root finding program from Practical~\ref{ex:bisection}, we might want to reuse the function for finding roots of different functions.  A good way to code this is to pass the function as an argument to the \shellcmd{find\_root()} function:
 \begin{minted}{python}
 def find_root(f, lower_bound, upper_bound, \
 		epsilon=1e-6, max_iterations=100):
@@ -1085,7 +1097,7 @@ find_root(lambda x: x**5 + x + 1, -1.0, 1.0)
 \end{minted}
 \end{itemize}
 \begin{exercise}
-Modify the numeric integration program from Practical~\TODO{xref} to accept the integrable function as an argument.  Try integrating some named functions and lambda expressions.
+Modify the numeric integration program from Practical~\ref{ex:bisection} to accept the integrable function as an argument.  Try integrating some named functions and lambda expressions.
 
 \additional
 
