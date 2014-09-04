@@ -1240,4 +1240,17 @@ for (name, balance) in balance_by_name.items()}
 \end{minted}
 \end{itemize}
 
+\chapter{NetCDF geographical data}
+% http://www.giss.nasa.gov/tools/panoply/PanoplyJ.tgz
+% http://www.unidata.ucar.edu/software/netcdf/examples/ECMWF_ERA-40_subset.nc
+% openjdk-7-jre (for the viewer)
+
+% installing NetCDF Python bindings
+% download netCDF4-1.1.1.tar.gz from https://pypi.python.org/pypi/netCDF4#downloads
+% cd netCDF4-1.1.1 && tar -xvzf netCDF4-1.1.1.tar.gz
+% sudo python3 setup.py install
+% sudo apt-get install python3-dev libnetcdf-dev libgeos-dev
+% download basemap tarball from http://sourceforge.net/projects/matplotlib/files/matplotlib-toolkits/
+% sudo python3 setup.py install
+% sudo ln -s /usr/lib/libgeos-3.4.2.so /usr/lib/libgeos.so
 \end{document}

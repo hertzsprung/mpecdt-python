@@ -10,7 +10,7 @@ tasks
 / linear algebra package
 
 additional
-- Colins optimisation problem
+/ Colins optimisation problem
 / graph plotting
 - netcdf
 - statistics on big data
