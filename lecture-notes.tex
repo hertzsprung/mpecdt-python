@@ -211,7 +211,7 @@ using \keys{ctrl+d} when you have finished entering the list.
 \begin{minted}{bash}
 sudo apt-get install ipython3 python3-tk python3-pytest
   python3-scipy python3-matplotlib python3-dev
-  openjdk-7-jre libnetcdf-dev libgeos-dev
+  openjdk-7-jre libnetcdf-dev libgeos-dev libhdf5-dev
 \end{minted}
 You will be prompted to enter your password.  Enter \keys{Y} when prompted to continue.  It will take a while to download and install the packages, so you will have to wait for the flashing prompt to reappear.
 \item To test that Python is working, run the \shellcmd{ipython3} command.  Your terminal window should look something like Figure~\ref{fig:ipython3}.  Try evaluating an expression at the IPython prompt, such as \shellcmd{3 + 5}.  You can return to the linux command line by typing \keys{\ctrl+d}.
@@ -1203,6 +1203,8 @@ where we have used the \shellcmd{any()} built-in function which returns \shellcm
 \end{itemize}
 
 \section{Dictionaries}
+\label{sec:dictionary}
+
 \begin{itemize}
 \item While Python lists and NumPy arrays allow us to store data that is indexed by sequential integers, Python's dictionary data structure lets us index values by almost anything, be it textual, numeric, or something else.  We call the data that is used to index the value the `key'.
 \item We create a dictionary as follows:
@@ -1255,7 +1257,7 @@ NetCDF is a data file format for describing geographic data.  In this chapter, w
 \end{enumerate}
 
 \begin{figure}
-	%\includegraphics[width=\textwidth]{panoply.png}
+	\includegraphics[width=\textwidth]{panoply.png}
 	\caption{Visualisation of ERA-40 data with Panoply}
 	\label{fig:panoply}
 \end{figure}
@@ -1267,7 +1269,7 @@ Installing NetCDF for Python 3 is somewhat involved.  The following steps should
 	\item Extract the archive with the command \shellcmd{tar -xvzf netCDF4-1.1.1.tar.gz}.  This should create a new directory named \shellcmd{netCDF4-1.1.1}.
 	\item \shellcmd{cd} into this directory and execute the command 
 \begin{minted}{bash}
-$ sudo python3 setup.py
+$ sudo python3 setup.py install
 \end{minted}
 You will be prompted to enter your password.
 	\item To plot geographic data we must install a separate matplotlib component called `basemap'.  Download it from \url{http://sourceforge.net/projects/matplotlib/files/matplotlib-toolkits/}
@@ -1287,4 +1289,48 @@ These commands should execute without error.
 \end{enumerate}
 
 \section{Plotting geographic data with matplotlib}
+Here we will present a small program that plots surface temperature on a Mercator projection of the world.
+\begin{minted}{python}
+from netCDF4 import Dataset
+from mpl_toolkits.basemap import Basemap, shiftgrid
+import matplotlib.pyplot as plt
+import numpy as np
+
+def load_era40(filename):
+    era40 = Dataset(filename, mode='r')
+    longitudes = era40.variables['longitude'][:]
+    latitudes = era40.variables['latitude'][:]
+    t = era40.variables['p2t'][0][:]
+    era40.close()
+    return longitudes, latitudes, t
+
+longitudes, latitudes, t = load_era40('ECMWF_ERA-40_subset.nc')
+
+basemap = Basemap(projection='merc', llcrnrlat=-80, \
+    urcrnrlat=80, llcrnrlon=-180, urcrnrlon=180, \
+    lat_ts=20, resolution='c')
+t, longitudes = shiftgrid(180.0, t, longitudes, start=False)
+lon, lat = np.meshgrid(longitudes, latitudes)
+xi, yi = basemap(lon, lat)
+
+basemap.pcolor(xi, yi, t)
+basemap.drawcoastlines()
+
+plt.show()
+\end{minted}
+This plots a map shown in figure~\ref{fig:netcdf}.
+
+\begin{figure}
+	\includegraphics[width=\textwidth]{netcdf.png}
+	\caption{Visualisation of ERA-40 data with matplotlib}
+	\label{fig:netcdf}
+\end{figure}
+
+There are a few points to mention about the code:
+\begin{itemize}
+	\item We load the NetCDF file into a \shellcmd{Dataset} structure which holds a dictionary of variables (see section~\ref{sec:dictionary} for details about the dictionary data structure).  The variable names match those seen in Panoply.
+	\item We use matplotlib's \shellcmd{Basemap} to project (lat, lon) data onto (x, y) coordinates.  Refer to \url{http://matplotlib.org/basemap/users/mapsetup.html} for details of the available projections.
+	\item The ERA-40 longitudes range from \SIrange{0}{360}{\degree}, but matplotlib expects longitudes in the range \SIrange{-180}{180}{\degree}.  We use the \shellcmd{shiftgrid()} function modify the data to account for this.
+\end{itemize}
+
 \end{document}
