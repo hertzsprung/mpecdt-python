@@ -210,7 +210,8 @@ using \keys{ctrl+d} when you have finished entering the list.
 \item Enter the command (without any line breaks)
 \begin{minted}{bash}
 sudo apt-get install ipython3 python3-tk python3-pytest
-  python3-scipy python3-matplotlib
+  python3-scipy python3-matplotlib python3-dev
+  openjdk-7-jre libnetcdf-dev libgeos-dev
 \end{minted}
 You will be prompted to enter your password.  Enter \keys{Y} when prompted to continue.  It will take a while to download and install the packages, so you will have to wait for the flashing prompt to reappear.
 \item To test that Python is working, run the \shellcmd{ipython3} command.  Your terminal window should look something like Figure~\ref{fig:ipython3}.  Try evaluating an expression at the IPython prompt, such as \shellcmd{3 + 5}.  You can return to the linux command line by typing \keys{\ctrl+d}.
@@ -1240,17 +1241,50 @@ for (name, balance) in balance_by_name.items()}
 \end{minted}
 \end{itemize}
 
-\chapter{NetCDF geographical data}
-% http://www.giss.nasa.gov/tools/panoply/PanoplyJ.tgz
-% http://www.unidata.ucar.edu/software/netcdf/examples/ECMWF_ERA-40_subset.nc
-% openjdk-7-jre (for the viewer)
+\chapter{NetCDF geographic data}
+NetCDF is a data file format for describing geographic data.  In this chapter, we will walk through the necessary steps for installation and show a small example for plotting meteorological NetCDF data with matplotlib.
 
-% installing NetCDF Python bindings
-% download netCDF4-1.1.1.tar.gz from https://pypi.python.org/pypi/netCDF4#downloads
-% cd netCDF4-1.1.1 && tar -xvzf netCDF4-1.1.1.tar.gz
-% sudo python3 setup.py install
-% sudo apt-get install python3-dev libnetcdf-dev libgeos-dev
-% download basemap tarball from http://sourceforge.net/projects/matplotlib/files/matplotlib-toolkits/
-% sudo python3 setup.py install
-% sudo ln -s /usr/lib/libgeos-3.4.2.so /usr/lib/libgeos.so
+\section{Visualisation with Panoply}
+\begin{enumerate}
+\item Panoply is a program for visualising NetCDF data.  Download it from \url{http://www.giss.nasa.gov/tools/panoply/PanoplyJ.tgz}
+\item On the command line, locate the \shellcmd{Download} directory and extract the archive using the command \shellcmd{tar -xvzf PanoplyJ.tgz}.  This will create a new \shellcmd{PanoplyJ} directory.
+\item Download a sample of the ERA-40 data set from \url{http://www.unidata.ucar.edu/software/netcdf/examples/ECMWF_ERA-40_subset.nc} and save it in the same directory as your Python code.
+\item \shellcmd{cd} into this directory and execute \shellcmd{./panoply.sh} to launch the program.
+\item You will be prompted to choose a NetCDF file.  Open the \shellcmd{ECMWF\_ERA-40\_subset.nc} that you downloaded.
+\item You should see a list of variables.  Right click on `Mean sea level pressure' and choose \menu{Create Standard Plot}.  Accept the default options and choose \menu{Create}.  You should see a plot that looks like figure~\ref{fig:panoply}.
+\end{enumerate}
+
+\begin{figure}
+	%\includegraphics[width=\textwidth]{panoply.png}
+	\caption{Visualisation of ERA-40 data with Panoply}
+	\label{fig:panoply}
+\end{figure}
+
+\section{Installing NetCDF for Python 3}
+Installing NetCDF for Python 3 is somewhat involved.  The following steps should give you a working installation:
+\begin{enumerate}
+	\item Download \shellcmd{netCDF4-1.1.1.tar.gz} from \url{https://pypi.python.org/pypi/netCDF4#downloads}
+	\item Extract the archive with the command \shellcmd{tar -xvzf netCDF4-1.1.1.tar.gz}.  This should create a new directory named \shellcmd{netCDF4-1.1.1}.
+	\item \shellcmd{cd} into this directory and execute the command 
+\begin{minted}{bash}
+$ sudo python3 setup.py
+\end{minted}
+You will be prompted to enter your password.
+	\item To plot geographic data we must install a separate matplotlib component called `basemap'.  Download it from \url{http://sourceforge.net/projects/matplotlib/files/matplotlib-toolkits/}
+	\item Extract the archive in the same way as before and \shellcmd{cd} into the newly created directory.
+	\item Run the two commands
+\begin{minted}{bash}
+$ sudo ln -s /usr/lib/libgeos-3.4.2.so /usr/lib/libgeos.so
+$ sudo python3 setup.py install
+\end{minted}
+You may be prompted to enter your password again.
+	\item To quickly test the installation, launch \shellcmd{ipython3} and run the following
+\begin{minted}{python}
+from netCDF4 import Dataset
+from mpl_toolkits.basemap import Basemap
+\end{minted}
+These commands should execute without error.
+\end{enumerate}
+
+\section{Plotting geographic data with matplotlib}
 \end{document}
